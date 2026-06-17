@@ -151,7 +151,7 @@
     html{scroll-behavior:smooth} body{font-family:'Barlow',sans-serif;background:var(--white);color:var(--navy);overflow-x:hidden}
 
     /* NAV */
-    nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(16,30,65,0.97);backdrop-filter:blur(12px);border-bottom:2px solid var(--gold);display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:84px}
+    nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:hsl(220,64%,15%);border-bottom:2px solid var(--gold);display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:84px}
     .nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none}
     .nav-logo-text-mobile{display:none;font-family:'Bebas Neue',sans-serif;font-size:0.95rem;color:var(--white);letter-spacing:1.5px;line-height:1.1;text-align:center}
     .nav-logo-text-mobile span{display:block;font-family:'Barlow',sans-serif;font-size:0.58rem;font-weight:300;letter-spacing:3px;color:var(--gold);text-transform:uppercase}
@@ -189,6 +189,8 @@
     
     .stat{text-align:center}
     .stat-num{font-family:'Bebas Neue',Arial,sans-serif;font-size:2.8rem;color:var(--gold);line-height:1}
+    .stat-gear{display:none}
+    .stat-infinity{display:inline}
     .stat-label{font-family:'Barlow Condensed',sans-serif;font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;color:rgba(245,247,250,0.45);margin-top:4px}
     .hero-image{position:absolute;right:0;top:0;bottom:0;width:48%;z-index:1;overflow:hidden}
     .hero-image img{width:100%;height:100%;object-fit:cover;opacity:0.55;display:block}
@@ -363,7 +365,7 @@
     /* RESPONSIVE */
     @media(max-width:960px){
       .nav-links{display:none}
-      .nav-links.open{display:flex;flex-direction:column;position:absolute;top:84px;left:0;right:0;background:rgba(16,30,65,0.98);padding:20px 5%;gap:4px;border-bottom:2px solid var(--gold)}
+      .nav-links.open{display:flex;flex-direction:column;position:absolute;top:84px;left:0;right:0;background:hsl(220,64%,15%);padding:20px 5%;gap:4px;border-bottom:2px solid var(--gold)}
       .hamburger{display:flex}
       .hero-stats{position:static;margin-top:44px;margin-bottom:52px}
       .hero-scroll{bottom:12px;left:50%;transform:translateX(-50%);font-size:0.65rem;gap:8px}
@@ -400,6 +402,8 @@
       .footer-links{justify-content:center}
       .about-highlights{grid-template-columns:1fr}
       .about-visual{height:260px}
+      .stat-infinity{display:none}
+      .stat-gear{display:inline}
     }
   
     .google-review-cta{text-align:center;margin-top:48px}
@@ -462,7 +466,7 @@
   <div class="hero-stats">
     <div class="stat"><div class="stat-num">30+</div><div class="stat-label">Years<br>Experience</div></div>
     <div class="stat"><div class="stat-num">NZ</div><div class="stat-label">Owned &<br>Operated</div></div>
-    <div class="stat"><div class="stat-num">&#8734;</div><div class="stat-label">Custom<br>Jobs</div></div>
+    <div class="stat"><div class="stat-num"><span class="stat-infinity">∞</span><span class="stat-gear">⚙&#xFE0E;</span></div><div class="stat-label">Custom<br>Jobs</div></div>
   </div>
   <div class="hero-scroll"><div class="scroll-line"></div>Scroll to explore</div>
 </section>
