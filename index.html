@@ -302,7 +302,8 @@
     .footer-facebook{display:inline-flex!important;align-items:center;gap:7px;font-family:'Barlow Condensed',sans-serif;font-size:.95rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--grey);text-decoration:none;transition:var(--transition)}
     .footer-facebook:hover{color:var(--gold)}
     .footer-facebook .fb-icon{width:18px;height:18px;flex-basis:18px;font-size:13px}
-    .footer-social-row{width:100%;display:flex;justify-content:center;align-items:center;margin-top:0}
+    .footer-nav-col{display:flex;flex-direction:column;align-items:center;justify-content:center}
+    .footer-social-row{display:flex;justify-content:center;align-items:center;margin-top:14px;width:auto}
 
     /* REVIEWS */
     #reviews{padding:100px 5%;background:var(--offwhite)}
@@ -420,6 +421,7 @@
       .contact-form-wrap{padding:24px 18px}
       .footer-inner{flex-direction:column;text-align:center}
       .footer-links{justify-content:center}
+      .footer-nav-col{width:100%;align-items:center}
       .about-highlights{grid-template-columns:1fr}
       .about-visual{height:260px}
       .stat-infinity{display:none}
@@ -686,13 +688,15 @@
       <img src="imgfooter/img1.webp" alt="Circle Line Engineering Ltd" loading="lazy" fetchpriority="low" decoding="async" />
       <div class="footer-logo-text">Circle Line Engineering Ltd.<span>Precision Engineering · Auckland, NZ</span></div>
     </div>
-    <ul class="footer-links">
-      <li><a href="#home">Home</a></li><li><a href="#services">Services</a></li>
-      <li><a href="#about">About</a></li><li><a href="#gallery">Gallery</a></li>
-      <li><a href="#reviews">Reviews</a></li><li><a href="#contact">Contact</a></li>
-    </ul>
-    <div class="footer-social-row">
-      <a class="footer-facebook" href="https://www.facebook.com/profile.php?id=61573653448370" target="_blank" rel="noopener noreferrer" aria-label="Circle Line Engineering on Facebook"><span class="fb-icon" aria-hidden="true">f</span>Facebook</a>
+    <div class="footer-nav-col">
+      <ul class="footer-links">
+        <li><a href="#home">Home</a></li><li><a href="#services">Services</a></li>
+        <li><a href="#about">About</a></li><li><a href="#gallery">Gallery</a></li>
+        <li><a href="#reviews">Reviews</a></li><li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="footer-social-row">
+        <a class="footer-facebook" href="https://www.facebook.com/profile.php?id=61573653448370" target="_blank" rel="noopener noreferrer" aria-label="Circle Line Engineering on Facebook"><span class="fb-icon" aria-hidden="true">f</span>Facebook</a>
+      </div>
     </div>
     <p class="footer-copy">&copy; 2025 Circle Line Engineering Ltd. All rights reserved. &nbsp;|&nbsp; 8 Marjorie Jayne Crescent, Ōtāhuhu, Auckland &nbsp;|&nbsp; <a href="mailto:sales@circleline.co.nz" style="color:var(--grey);text-decoration:none;">sales@circleline.co.nz</a></p>
   </div>
