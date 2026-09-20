@@ -3,15 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Cache refresh hints: GitHub Pages controls HTTP headers, but these help browsers revalidate this document. -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <title>Circle Line Engineering – CNC Machining Auckland</title>
   <meta name="description" content="Precision CNC machining in Auckland — 30+ years in CNC turning, milling, engineering design, prototyping &amp; welding. Ōtāhuhu. Call +64 9 276 3171." />
   <meta name="keywords" content="CNC machining Auckland, CNC milling NZ, CNC turning Auckland, precision engineering Auckland, machine shop Otahuhu, engineering design NZ, custom manufacturing Auckland, Circle Line Engineering, precision components Auckland, metal machining NZ, CNC workshop Auckland, welding Auckland, engineering prototyping NZ, keyway broaching Auckland, tool making Auckland" />
   <meta name="author" content="Circle Line Engineering Ltd" />
   <meta name="robots" content="index, follow" />
   <meta name="theme-color" content="#1a2c5b" />
-  <link rel="icon" type="image/png" sizes="512x512" href="https://circleline.co.nz/fav_topo.png" />
-  <link rel="shortcut icon" href="https://circleline.co.nz/fav_topo.png" />
-  <link rel="apple-touch-icon" href="https://circleline.co.nz/fav_topo.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="https://circleline.co.nz/fav_topo.png?v=20260920-1" />
+  <link rel="shortcut icon" href="https://circleline.co.nz/fav_topo.png?v=20260920-1" />
+  <link rel="apple-touch-icon" href="https://circleline.co.nz/fav_topo.png?v=20260920-1" />
 
 <link rel="canonical" href="https://www.circleline.co.nz/" />
   <meta property="og:type" content="website" />
@@ -20,14 +24,14 @@
   <meta property="og:description" content="30+ years of excellence in CNC turning, milling, engineering design and custom manufacturing. Auckland's trusted precision engineering workshop." />
   <meta property="og:locale" content="en_NZ" />
   <meta property="og:site_name" content="Circle Line Engineering Ltd" />
-  <meta property="og:image" content="https://circleline.co.nz/fav_wats.png" />
+  <meta property="og:image" content="https://circleline.co.nz/fav_wats.png?v=20260920-1" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="Circle Line Engineering Ltd — Precision CNC Machining Auckland" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Circle Line Engineering Ltd – Precision CNC Machining Auckland" />
   <meta name="twitter:description" content="30+ years of CNC turning, milling &amp; precision engineering in Auckland, NZ. Located in Ōtāhuhu. Get a quote today." />
-  <meta name="twitter:image" content="https://circleline.co.nz/fav_wats.png" />
+  <meta name="twitter:image" content="https://circleline.co.nz/fav_wats.png?v=20260920-1" />
   <meta name="geo.region" content="NZ-AUK" />
   <meta name="geo.placename" content="Ōtāhuhu, Auckland, New Zealand" />
   <meta name="geo.position" content="-36.9333;174.8500" />
@@ -75,7 +79,7 @@
           "reviewCount":"4",
           "bestRating":"5"
         },
-        "sameAs":["https://g.page/r/Cf73uk0FpkZ-EBM/review"],
+        "sameAs":["https://g.page/r/Cf73uk0FpkZ-EBM/review","https://www.facebook.com/profile.php?id=61573653448370"],
         "areaServed":[
           {"@type":"City","name":"Auckland"},
           {"@type":"State","name":"Auckland Region"},
@@ -355,6 +359,11 @@
     .footer-links a{font-family:'Barlow Condensed',sans-serif;font-size:0.95rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--grey);text-decoration:none;transition:var(--transition)}
     .footer-links a:hover{color:var(--gold)}
     .footer-copy{font-size:0.82rem;color:rgba(138,151,176,0.4);width:100%;text-align:center;margin-top:22px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.04)}
+    .footer-social{display:flex;align-items:center;gap:10px}
+    .facebook-link{display:inline-flex;align-items:center;gap:9px;color:var(--grey);text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-size:0.95rem;letter-spacing:1px;text-transform:uppercase;transition:var(--transition)}
+    .facebook-link:hover{color:var(--white);transform:translateY(-1px)}
+    .facebook-icon{width:34px;height:34px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:#1877F2;color:#fff;box-shadow:0 3px 12px rgba(0,0,0,0.22)}
+    .facebook-icon svg{width:18px;height:18px;display:block;fill:currentColor}
 
     /* ANIMATIONS */
     @keyframes fadeInUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
@@ -429,6 +438,27 @@
     .hero-image img{will-change:transform}</style>
 </head>
 <body>
+<script>
+  // One-time cleanup of caches that older versions of this site may have created.
+  // This cannot clear the browser's TLS/certificate cache (browsers intentionally do not allow pages to do that).
+  (() => {
+    const resetVersion = '20260920-1';
+    const storageKey = 'circleline-cache-reset-version';
+    try {
+      if (localStorage.getItem(storageKey) === resetVersion) return;
+      const jobs = [];
+      if ('serviceWorker' in navigator) {
+        jobs.push(navigator.serviceWorker.getRegistrations().then(regs => Promise.all(regs.map(r => r.unregister()))));
+      }
+      if ('caches' in window) {
+        jobs.push(caches.keys().then(keys => Promise.all(keys.map(k => caches.delete(k)))));
+      }
+      Promise.allSettled(jobs).finally(() => {
+        try { localStorage.setItem(storageKey, resetVersion); } catch (_) {}
+      });
+    } catch (_) {}
+  })();
+</script>
 <div id="scroll-progress"></div>
 
 <!-- NAVBAR -->
@@ -663,6 +693,14 @@
       <li><a href="#about">About</a></li><li><a href="#gallery">Gallery</a></li>
       <li><a href="#reviews">Reviews</a></li><li><a href="#contact">Contact</a></li>
     </ul>
+    <div class="footer-social">
+      <a class="facebook-link" href="https://www.facebook.com/profile.php?id=61573653448370" target="_blank" rel="noopener noreferrer" aria-label="Circle Line Engineering on Facebook">
+        <span class="facebook-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true"><path d="M13.5 22v-9h3l.5-3h-3.5V8.1c0-.9.3-1.6 1.8-1.6H17V3.8c-.3 0-1.4-.1-2.6-.1-2.6 0-4.4 1.6-4.4 4.5V10H7v3h3v9h3.5z"/></svg>
+        </span>
+        <span>Facebook</span>
+      </a>
+    </div>
     <p class="footer-copy">&copy; 2025 Circle Line Engineering Ltd. All rights reserved. &nbsp;|&nbsp; 8 Marjorie Jayne Crescent, Ōtāhuhu, Auckland &nbsp;|&nbsp; <a href="mailto:sales@circleline.co.nz" style="color:var(--grey);text-decoration:none;">sales@circleline.co.nz</a></p>
   </div>
 </footer>
