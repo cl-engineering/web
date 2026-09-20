@@ -7,7 +7,7 @@
   <meta name="description" content="Precision CNC machining in Auckland — 30+ years in CNC turning, milling, engineering design, prototyping &amp; welding. Ōtāhuhu. Call +64 9 276 3171." />
   <meta name="keywords" content="CNC machining Auckland, CNC milling NZ, CNC turning Auckland, precision engineering Auckland, machine shop Otahuhu, engineering design NZ, custom manufacturing Auckland, Circle Line Engineering, precision components Auckland, metal machining NZ, CNC workshop Auckland, welding Auckland, engineering prototyping NZ, keyway broaching Auckland, tool making Auckland" />
   <meta name="author" content="Circle Line Engineering Ltd" />
-  <meta name="site-version" content="2026-09-20-gallery-folders-v1" />
+  <meta name="site-version" content="2026-09-21-gallery-uppercase-facebook-footer-v2" />
   <meta name="robots" content="index, follow" />
   <meta name="theme-color" content="#1a2c5b" />
   <link rel="icon" type="image/png" sizes="512x512" href="https://circleline.co.nz/fav_topo.png" />
@@ -288,7 +288,7 @@
     .lightbox-close:hover{opacity:1}
 
 
-    /* AUTO-EXPANDING GALLERY — add img8.webp, img9.webp, etc. to /imggallery */
+    /* AUTO-EXPANDING GALLERY — add img8.webp / img8.JPG / etc. to /imggallery */
     .gallery-extra-wrap{max-height:0;overflow:hidden;opacity:0;transition:max-height .55s ease,opacity .35s ease,margin-top .55s ease;margin-top:0}
     .gallery-extra-wrap.open{opacity:1;margin-top:10px}
     .gallery-extra-inner{overflow:hidden}
@@ -299,8 +299,10 @@
     .gallery-more-arrow{font-size:1.1rem;line-height:1;transition:transform .3s ease}
     .gallery-more-btn[aria-expanded="true"] .gallery-more-arrow{transform:rotate(180deg)}
     .fb-icon{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:#1877f2;color:#fff;font-family:Arial,sans-serif;font-weight:700;font-size:16px;line-height:1;flex:0 0 22px}
-    .footer-facebook{display:inline-flex!important;align-items:center;gap:6px}
+    .footer-facebook{display:inline-flex!important;align-items:center;gap:7px;font-family:'Barlow Condensed',sans-serif;font-size:.95rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--grey);text-decoration:none;transition:var(--transition)}
+    .footer-facebook:hover{color:var(--gold)}
     .footer-facebook .fb-icon{width:18px;height:18px;flex-basis:18px;font-size:13px}
+    .footer-social-row{width:100%;display:flex;justify-content:center;align-items:center;margin-top:0}
 
     /* REVIEWS */
     #reviews{padding:100px 5%;background:var(--offwhite)}
@@ -671,7 +673,6 @@
       <div class="contact-item"><span class="ci-icon">📞</span><div><div class="ci-label">Phone</div><div class="ci-value"><a href="tel:+6492763171">09 276 3171</a></div></div></div>
 
       <div class="contact-item"><span class="ci-icon">✉️</span><div><div class="ci-label">Email</div><div class="ci-value"><a href="mailto:sales@circleline.co.nz">sales@circleline.co.nz</a></div></div></div>
-      <div class="contact-item"><span class="fb-icon" aria-hidden="true">f</span><div><div class="ci-label">Facebook</div><div class="ci-value"><a href="https://www.facebook.com/profile.php?id=61573653448370" target="_blank" rel="noopener noreferrer">Follow Circle Line Engineering</a></div></div></div>
       <div class="contact-item"><span class="ci-icon">🕐</span><div><div class="ci-label">Hours</div><div class="ci-value">Monday – Friday · 8:00 AM – 5:00 PM</div></div></div>
     </div>
 
@@ -689,8 +690,10 @@
       <li><a href="#home">Home</a></li><li><a href="#services">Services</a></li>
       <li><a href="#about">About</a></li><li><a href="#gallery">Gallery</a></li>
       <li><a href="#reviews">Reviews</a></li><li><a href="#contact">Contact</a></li>
-      <li><a class="footer-facebook" href="https://www.facebook.com/profile.php?id=61573653448370" target="_blank" rel="noopener noreferrer"><span class="fb-icon" aria-hidden="true">f</span>Facebook</a></li>
     </ul>
+    <div class="footer-social-row">
+      <a class="footer-facebook" href="https://www.facebook.com/profile.php?id=61573653448370" target="_blank" rel="noopener noreferrer" aria-label="Circle Line Engineering on Facebook"><span class="fb-icon" aria-hidden="true">f</span>Facebook</a>
+    </div>
     <p class="footer-copy">&copy; 2025 Circle Line Engineering Ltd. All rights reserved. &nbsp;|&nbsp; 8 Marjorie Jayne Crescent, Ōtāhuhu, Auckland &nbsp;|&nbsp; <a href="mailto:sales@circleline.co.nz" style="color:var(--grey);text-decoration:none;">sales@circleline.co.nz</a></p>
   </div>
 </footer>
@@ -708,9 +711,10 @@
 
   // Extra gallery images are discovered automatically by sequential filename.
   // To add photos without editing this HTML, upload them as:
-  // imggallery/img8.webp, imggallery/img9.webp, imggallery/img10.webp, ...
-  // JPG/JPEG/PNG also work, but WebP is recommended for speed.
-  const galleryExtensions = ['webp','jpg','jpeg','png'];
+  // imggallery/img8.webp, imggallery/img8.JPG, imggallery/img9.jpg, etc.
+  // GitHub Pages is case-sensitive, so both lowercase and uppercase extensions are checked.
+  // WebP is still recommended for speed.
+  const galleryExtensions = ['webp','jpg','jpeg','png','WEBP','JPG','JPEG','PNG'];
   const galleryInitialCount = 7;
   const galleryMaxAutoImages = 80;
 
@@ -727,14 +731,15 @@
   }
 
   function appendExtraGalleryItem(src,number){
+    const freshSrc=src+`?v=${Date.now()}`;
     const index=galleryImgs.length;
-    galleryImgs.push(src);
+    galleryImgs.push(freshSrc);
     const item=document.createElement('div');
     item.className='gallery-item';
     item.onclick=()=>openLightbox(index);
 
     const img=document.createElement('img');
-    img.src=src;
+    img.src=freshSrc;
     img.alt=`Circle Line Engineering project ${number}`;
     img.loading='lazy';
     img.decoding='async';
