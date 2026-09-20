@@ -1,0 +1,163 @@
+name: Circle Line Website Health
+
+on:
+  # Runs once per hour, at minute 17, to avoid the busiest exact-hour window.
+  schedule:
+    - cron: "17 * * * *"
+
+  # Also lets you run the check manually from the Actions tab.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  website-health:
+    name: Check website, DNS and HTTPS
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Run Circle Line health checks
+        shell: bash
+        run: |
+          set -u
+
+          ROOT_HOST="circleline.co.nz"
+          WWW_HOST="www.circleline.co.nz"
+          CERT_WARNING_DAYS=14
+          CERT_WARNING_SECONDS=$((CERT_WARNING_DAYS * 24 * 60 * 60))
+          FAILURES=0
+
+          : > "$GITHUB_STEP_SUMMARY"
+          echo "# Circle Line website health" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Checked at: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+
+          pass() {
+            echo "✅ $1"
+            echo "- ✅ $1" >> "$GITHUB_STEP_SUMMARY"
+          }
+
+          fail() {
+            echo "❌ $1" >&2
+            echo "- ❌ $1" >> "$GITHUB_STEP_SUMMARY"
+            FAILURES=$((FAILURES + 1))
+          }
+
+          note() {
+            echo "ℹ️ $1"
+            echo "  - $1" >> "$GITHUB_STEP_SUMMARY"
+          }
+
+          echo "== DNS =="
+          for HOST in "$ROOT_HOST" "$WWW_HOST"; do
+            DNS_RESULT="$(python3 - "$HOST" <<'PY'
+          import socket, sys
+          host = sys.argv[1]
+          try:
+              infos = socket.getaddrinfo(host, 443, type=socket.SOCK_STREAM)
+              ips = sorted({item[4][0] for item in infos})
+              if not ips:
+                  raise RuntimeError("no IP addresses returned")
+              print(", ".join(ips))
+          except Exception as exc:
+              print(f"ERROR: {exc}")
+              sys.exit(1)
+          PY
+          )"
+            if [ $? -eq 0 ]; then
+              pass "DNS resolves for $HOST"
+              note "$HOST → $DNS_RESULT"
+            else
+              fail "DNS resolution failed for $HOST ($DNS_RESULT)"
+            fi
+          done
+
+          echo ""
+          echo "== HTTPS and content =="
+
+          ROOT_BODY="$(mktemp)"
+          ROOT_CODE="$(curl --silent --show-error --location \
+            --max-time 30 \
+            --output "$ROOT_BODY" \
+            --write-out '%{http_code}' \
+            "https://$ROOT_HOST/" || true)"
+
+          if [ "$ROOT_CODE" = "200" ]; then
+            pass "https://$ROOT_HOST returns HTTP 200"
+          else
+            fail "https://$ROOT_HOST did not return HTTP 200 (got: ${ROOT_CODE:-connection error})"
+          fi
+
+          if grep -qi "Circle Line Engineering" "$ROOT_BODY" 2>/dev/null; then
+            pass "Homepage contains the expected Circle Line content"
+          else
+            fail "Homepage did not contain the expected text 'Circle Line Engineering'"
+          fi
+
+          WWW_BODY="$(mktemp)"
+          WWW_CODE="$(curl --silent --show-error --location \
+            --max-time 30 \
+            --output "$WWW_BODY" \
+            --write-out '%{http_code}' \
+            "https://$WWW_HOST/" || true)"
+
+          if [ "$WWW_CODE" = "200" ]; then
+            pass "https://$WWW_HOST is reachable and ends on HTTP 200"
+          else
+            fail "https://$WWW_HOST failed (final HTTP status: ${WWW_CODE:-connection error})"
+          fi
+
+          echo ""
+          echo "== HTTP → HTTPS redirect =="
+          REDIRECT_TARGET="$(curl --silent --show-error \
+            --max-time 20 \
+            --output /dev/null \
+            --write-out '%{redirect_url}' \
+            "http://$ROOT_HOST/" || true)"
+
+          if [[ "$REDIRECT_TARGET" == https://* ]]; then
+            pass "HTTP redirects to HTTPS"
+            note "Redirect target: $REDIRECT_TARGET"
+          else
+            fail "HTTP did not redirect to HTTPS (target: ${REDIRECT_TARGET:-none})"
+          fi
+
+          echo ""
+          echo "== TLS certificates =="
+          for HOST in "$ROOT_HOST" "$WWW_HOST"; do
+            CERT_FILE="$(mktemp)"
+
+            if timeout 25 bash -c \
+              "echo | openssl s_client -servername '$HOST' -connect '$HOST:443' 2>/dev/null | openssl x509 -outform PEM > '$CERT_FILE'" \
+              && [ -s "$CERT_FILE" ]; then
+
+              END_DATE="$(openssl x509 -in "$CERT_FILE" -noout -enddate 2>/dev/null | cut -d= -f2-)"
+
+              # curl above already validates the certificate chain and hostname.
+              # This extra check warns before the certificate gets close to expiry.
+              if openssl x509 -in "$CERT_FILE" -checkend "$CERT_WARNING_SECONDS" -noout >/dev/null 2>&1; then
+                pass "TLS certificate for $HOST is valid for more than $CERT_WARNING_DAYS days"
+                note "Certificate expiry: $END_DATE"
+              else
+                fail "TLS certificate for $HOST expires within $CERT_WARNING_DAYS days (or is already expired). Expiry: $END_DATE"
+              fi
+            else
+              fail "Could not retrieve the TLS certificate for $HOST"
+            fi
+          done
+
+          rm -f "$ROOT_BODY" "$WWW_BODY"
+
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$FAILURES" -eq 0 ]; then
+            echo "## ✅ All checks passed" >> "$GITHUB_STEP_SUMMARY"
+            echo "All Circle Line website health checks passed."
+            exit 0
+          else
+            echo "## ❌ $FAILURES check(s) failed" >> "$GITHUB_STEP_SUMMARY"
+            echo "$FAILURES Circle Line website health check(s) failed." >&2
+            exit 1
+          fi
