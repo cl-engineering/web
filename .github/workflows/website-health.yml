@@ -1,12 +1,18 @@
 name: Circle Line Website Health
 
 on:
-  # Runs once per hour, at minute 17, to avoid the busiest exact-hour window.
+  # Runs once per hour, at minute 17.
   schedule:
     - cron: "17 * * * *"
 
-  # Also lets you run the check manually from the Actions tab.
+  # Manual run with an optional simulated failure for testing alerts.
   workflow_dispatch:
+    inputs:
+      simulate_failure:
+        description: "Simulate a failure to test alerts"
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: read
@@ -112,6 +118,7 @@ jobs:
 
           echo ""
           echo "== HTTP → HTTPS redirect =="
+
           REDIRECT_TARGET="$(curl --silent --show-error \
             --max-time 20 \
             --output /dev/null \
@@ -127,6 +134,7 @@ jobs:
 
           echo ""
           echo "== TLS certificates =="
+
           for HOST in "$ROOT_HOST" "$WWW_HOST"; do
             CERT_FILE="$(mktemp)"
 
@@ -136,8 +144,6 @@ jobs:
 
               END_DATE="$(openssl x509 -in "$CERT_FILE" -noout -enddate 2>/dev/null | cut -d= -f2-)"
 
-              # curl above already validates the certificate chain and hostname.
-              # This extra check warns before the certificate gets close to expiry.
               if openssl x509 -in "$CERT_FILE" -checkend "$CERT_WARNING_SECONDS" -noout >/dev/null 2>&1; then
                 pass "TLS certificate for $HOST is valid for more than $CERT_WARNING_DAYS days"
                 note "Certificate expiry: $END_DATE"
@@ -147,11 +153,14 @@ jobs:
             else
               fail "Could not retrieve the TLS certificate for $HOST"
             fi
+
+            rm -f "$CERT_FILE"
           done
 
           rm -f "$ROOT_BODY" "$WWW_BODY"
 
           echo "" >> "$GITHUB_STEP_SUMMARY"
+
           if [ "$FAILURES" -eq 0 ]; then
             echo "## ✅ All checks passed" >> "$GITHUB_STEP_SUMMARY"
             echo "All Circle Line website health checks passed."
@@ -161,3 +170,12 @@ jobs:
             echo "$FAILURES Circle Line website health check(s) failed." >&2
             exit 1
           fi
+
+      - name: Simulate failure for alert testing
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.simulate_failure }}
+        shell: bash
+        run: |
+          echo "## 🧪 Intentional alert test" >> "$GITHUB_STEP_SUMMARY"
+          echo "This failure was intentionally triggered to test GitHub notifications." >> "$GITHUB_STEP_SUMMARY"
+          echo "Intentional test failure - the website is NOT affected."
+          exit 1
