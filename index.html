@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Circle Line Engineering – CNC Machining Auckland</title>
   <meta name="description" content="Precision CNC machining in Auckland — 30+ years in CNC turning, milling, engineering design, prototyping &amp; welding. Ōtāhuhu. Call +64 9 276 3171." />
-  <meta name="keywords" content="CNC machining Auckland, CNC milling NZ, CNC turning Auckland, precision engineering Auckland, machine shop Otahuhu, engineering design NZ, custom manufacturing Auckland, Circle Line Engineering, precision components Auckland, metal machining NZ, CNC workshop Auckland, welding Auckland, engineering prototyping NZ, keyway broaching Auckland, tool making Auckland" />
+  <meta name="keywords" content="CNC machining Auckland, CNC milling NZ, CNC turning Auckland, precision engineering Auckland, machine shop Otahuhu, engineering design NZ, custom manufacturing Auckland, Circle Line Engineering, precision components Auckland, metal machining NZ, CNC workshop Auckland, welding Auckland, engineering prototyping NZ, keyway broaching Auckland, tool making Auckland, 4 axis CNC milling Auckland, Hyundai WIA F650 Plus, Hyundai WIA KF4600 II, Hyundai HiT 30M, CNC machining capacity Auckland" />
   <meta name="author" content="Circle Line Engineering Ltd" />
-  <meta name="site-version" content="2026-09-21-gallery-demand-load-spacing-v4" />
+  <meta name="site-version" content="2026-09-21-capabilities-v6" />
   <meta name="robots" content="index, follow" />
   <meta name="theme-color" content="#1a2c5b" />
   <link rel="icon" type="image/png" sizes="512x512" href="https://circleline.co.nz/fav_topo.png" />
@@ -230,6 +230,25 @@
     .service-name{font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--navy);margin-bottom:10px}
     .service-desc{font-size:0.87rem;font-weight:300;color:#5a6a88;line-height:1.6}
 
+
+    /* CAPABILITIES */
+    #capabilities{padding:100px 5%;background:#f3f6fb}
+    .capabilities-wrap{max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+    .capability-card{display:grid;grid-template-columns:1.08fr .92fr;background:var(--white);border-radius:8px;overflow:hidden;box-shadow:0 8px 34px rgba(14,31,69,.09);border:1px solid rgba(14,31,69,.07);min-height:340px}
+    .capability-card.reverse{grid-template-columns:.92fr 1.08fr}
+    .capability-card.reverse .capability-media{order:2}
+    .capability-card.reverse .capability-copy{order:1}
+    .capability-media{position:relative;min-height:340px;background:#dde3eb;overflow:hidden}
+    .capability-media img{width:100%;height:100%;position:absolute;inset:0;object-fit:cover;display:block;transition:transform .55s ease}
+    .capability-card:hover .capability-media img{transform:scale(1.018)}
+    .capability-copy{padding:38px 40px;display:flex;flex-direction:column;justify-content:center}
+    .capability-kicker{font-family:'Barlow Condensed',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--blue);margin-bottom:8px}
+    .capability-title{font-family:'Bebas Neue',sans-serif;font-size:2.35rem;letter-spacing:1.5px;line-height:1.05;color:var(--navy);margin:0}
+    .capability-spec{display:inline-block;align-self:flex-start;margin-top:16px;padding:9px 13px;background:rgba(212,160,23,.12);border-left:3px solid var(--gold);font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:700;letter-spacing:.55px;color:var(--navy)}
+    .capability-copy>p{font-size:.94rem;font-weight:300;line-height:1.75;color:#4a5a78;margin-top:18px}
+    .capability-equipment{margin-top:18px;padding-top:16px;border-top:1px solid #e3e8f0;font-size:.78rem!important;line-height:1.6!important;color:#71809a!important}
+    .capability-equipment strong{font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:1px;color:var(--navy);font-weight:700;margin-right:4px}
+
     /* ABOUT — now between services and gallery, fresh photos not in gallery */
     #about{padding:100px 5%;background:var(--white)}
     .about-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
@@ -391,6 +410,9 @@
       .hero-stats{position:static;margin-top:44px;margin-bottom:52px}
       .hero-scroll{bottom:12px;left:50%;transform:translateX(-50%);font-size:0.65rem;gap:8px}
       #home{flex-direction:column;justify-content:center;padding-top:100px}
+      .capability-card,.capability-card.reverse{grid-template-columns:1fr}
+      .capability-card.reverse .capability-media,.capability-card.reverse .capability-copy{order:initial}
+      .capability-media{min-height:310px}
       .about-inner{grid-template-columns:1fr;gap:48px}
       .about-visual{height:300px}
       .contact-inner{grid-template-columns:1fr}
@@ -422,6 +444,10 @@
       .footer-inner{flex-direction:column;text-align:center}
       .footer-links{justify-content:center}
       .footer-nav-col{width:100%;align-items:center}
+      .capability-media{min-height:230px}
+      .capability-copy{padding:28px 22px}
+      .capability-title{font-size:2rem}
+      .capability-spec{font-size:.9rem}
       .about-highlights{grid-template-columns:1fr}
       .about-visual{height:260px}
       .stat-infinity{display:none}
@@ -461,6 +487,7 @@
   <ul class="nav-links" id="navLinks">
     <li><a href="#home" class="active">Home</a></li>
     <li><a href="#services">Services</a></li>
+    <li><a href="#capabilities">Capabilities</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="#gallery">Gallery</a></li>
     <li><a href="#reviews">Reviews</a></li>
@@ -513,6 +540,57 @@
   </div>
 </section>
 
+<!-- MACHINING CAPABILITIES -->
+<section id="capabilities" aria-label="Circle Line Engineering machining capabilities">
+  <div class="section-header reveal-scale">
+    <div class="section-tag">Workshop Capacity</div>
+    <h2 class="section-title">Machining <span class="gold">Capabilities</span></h2>
+    <div class="divider"></div>
+    <p class="section-desc">CNC milling, CNC turning and conventional turning capability for precision components, prototypes, one-off work and repeat production.</p>
+  </div>
+
+  <div class="capabilities-wrap">
+    <article class="capability-card reveal">
+      <div class="capability-media">
+        <img src="imgcapabilities/cnc-milling.webp" alt="Circle Line Engineering CNC milling centres including Hyundai WIA F650 Plus, Hyundai SPT V800 and Hyundai WIA KF4600 II" loading="lazy" fetchpriority="low" decoding="async" />
+      </div>
+      <div class="capability-copy">
+        <div class="capability-kicker">CNC Milling</div>
+        <h3 class="capability-title">3 CNC Vertical Machining Centres</h3>
+        <div class="capability-spec">4-Axis Capability · Up to 1,400 × 660 × 635 mm (X/Y/Z)</div>
+        <p>Precision CNC milling for a wide range of components, prototypes, one-off work and repeat production across multiple engineering materials.</p>
+        <p class="capability-equipment"><strong>Equipment includes:</strong> Hyundai WIA F650 Plus · Hyundai SPT V800 · Hyundai WIA KF4600 II</p>
+      </div>
+    </article>
+
+    <article class="capability-card reverse reveal">
+      <div class="capability-media">
+        <img src="imgcapabilities/cnc-turning.webp" alt="Circle Line Engineering CNC turning centres including Kinwa CL650 x 2300, Hyundai HiT 30M, Hyundai HiT 18S and Hyundai HiT 15S" loading="lazy" fetchpriority="low" decoding="async" />
+      </div>
+      <div class="capability-copy">
+        <div class="capability-kicker">CNC Turning</div>
+        <h3 class="capability-title">4 CNC Turning Centres</h3>
+        <div class="capability-spec">Up to 650 mm Swing · 2,100 mm Between Centres</div>
+        <p>Versatile CNC turning capability for a wide range of precision components, prototypes, one-off work and repeat production, from smaller work through to larger and longer components.</p>
+        <p class="capability-equipment"><strong>Equipment includes:</strong> Kinwa CL650 × 2300 · Hyundai HiT 30M · Hyundai HiT 18S · Hyundai HiT 15S</p>
+      </div>
+    </article>
+
+    <article class="capability-card reveal">
+      <div class="capability-media">
+        <img src="imgcapabilities/manual-turning.webp" alt="Circle Line Engineering conventional manual lathes for precision manual turning in Auckland" loading="lazy" fetchpriority="low" decoding="async" />
+      </div>
+      <div class="capability-copy">
+        <div class="capability-kicker">Manual Turning</div>
+        <h3 class="capability-title">4 Conventional Lathes</h3>
+        <div class="capability-spec">Multiple Machine Capacities Available</div>
+        <p>Flexible conventional turning capability for a wide range of components, prototypes, modifications, one-off work and low-volume production.</p>
+        <p class="capability-equipment"><strong>Workshop capability:</strong> Four conventional lathes supporting flexible manual turning alongside our CNC machining capacity.</p>
+      </div>
+    </article>
+  </div>
+</section>
+
 <!-- ABOUT — after services, before gallery, uses different photos (bearing blocks + shafts) -->
 <section id="about" aria-label="About Circle Line Engineering">
   <div class="about-inner">
@@ -542,7 +620,7 @@
       <div class="about-body">
         <p>Circle Line Engineering Ltd is a precision engineering workshop based in Ōtāhuhu, Auckland, with over 30 years of experience delivering high-quality machined components to clients across New Zealand.</p>
         <p>Founded and led by our experienced engineering director (NZCE, Dip. Bus.), the business has built a reputation for precision, reliability and the ability to tackle challenging jobs from prototype one-offs through to repeat production runs.</p>
-        <p>Our modern facility is equipped with advanced CNC turning and milling machines, enabling us to work across a wide range of industries including marine, industrial, agricultural and specialist engineering.</p>
+        <p>Our workshop combines CNC milling, CNC turning and conventional turning capability, giving us the flexibility to support prototypes, one-off work and repeat production across a wide range of engineering requirements.</p>
       </div>
       <div class="about-highlights">
         <div class="highlight-item"><div class="highlight-dot"></div><div class="highlight-text">CNC Turning & Milling</div></div>
@@ -691,7 +769,7 @@
     <div class="footer-nav-col">
       <ul class="footer-links">
         <li><a href="#home">Home</a></li><li><a href="#services">Services</a></li>
-        <li><a href="#about">About</a></li><li><a href="#gallery">Gallery</a></li>
+        <li><a href="#capabilities">Capabilities</a></li><li><a href="#about">About</a></li><li><a href="#gallery">Gallery</a></li>
         <li><a href="#reviews">Reviews</a></li><li><a href="#contact">Contact</a></li>
       </ul>
       <div class="footer-social-row">
