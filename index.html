@@ -894,18 +894,35 @@
   });
 
   function toggleMenu(){document.getElementById('navLinks').classList.toggle('open');}
-  document.querySelectorAll('.nav-links a').forEach(l=>l.addEventListener('click',()=>document.getElementById('navLinks').classList.remove('open')));
-  window.addEventListener('scroll',()=>{
-    const sy=window.scrollY+100;
-    ['home','services','about','gallery','reviews','contact'].forEach(id=>{
-      const el=document.getElementById(id);
-      if(el&&sy>=el.offsetTop&&sy<el.offsetTop+el.offsetHeight){
-        document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
-        const a=document.querySelector(`.nav-links a[href="#${id}"]`);
-        if(a)a.classList.add('active');
-      }
+
+  // Keep the menu highlight synchronized with every homepage section,
+  // including the newly added CAPABILITIES section.
+  const navSectionIds=['home','services','capabilities','about','gallery','reviews','contact'];
+  function setActiveNav(id){
+    document.querySelectorAll('.nav-links a').forEach(a=>{
+      const isActive=a.getAttribute('href')===`#${id}`;
+      a.classList.toggle('active',isActive);
+      if(isActive)a.setAttribute('aria-current','page');
+      else a.removeAttribute('aria-current');
     });
-  });
+  }
+  function updateActiveNav(){
+    const marker=window.scrollY+120;
+    let current='home';
+    navSectionIds.forEach(id=>{
+      const section=document.getElementById(id);
+      if(section&&marker>=section.offsetTop)current=id;
+    });
+    setActiveNav(current);
+  }
+  document.querySelectorAll('.nav-links a').forEach(link=>link.addEventListener('click',()=>{
+    const target=(link.getAttribute('href')||'').slice(1);
+    if(navSectionIds.includes(target))setActiveNav(target);
+    document.getElementById('navLinks').classList.remove('open');
+  }));
+  window.addEventListener('scroll',updateActiveNav,{passive:true});
+  window.addEventListener('load',updateActiveNav);
+  updateActiveNav();
   const ro=new IntersectionObserver((entries)=>{
     entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*90);ro.unobserve(e.target);}});
   },{threshold:0.12});
