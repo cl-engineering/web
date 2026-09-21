@@ -1074,7 +1074,7 @@
   function openLightbox(idx){document.getElementById('lightboxImg').src=galleryImgs[idx];document.getElementById('lightbox').classList.add('active');document.body.style.overflow='hidden';}
   function closeLightbox(){document.getElementById('lightbox').classList.remove('active');document.body.style.overflow='';}
   document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox();});
-  let cur=0;const total=4;
+  let cur=0;const total=5;
   function buildDots(){
     const dc=document.getElementById('carouselDots');
     for(let i=0;i<total;i++){const d=document.createElement('div');d.className='dot'+(i===0?' active':'');d.onclick=()=>goTo(i);dc.appendChild(d);}
