@@ -2,15 +2,37 @@
 
 <html lang="en-NZ">
 <head>
+
+<!-- Tealium -->
+<script>
+  window.Parameters = window.Parameters || {
+    ExternalUid: 'LOCAA2641F3'
+  };
+
+  var utag_data = {};
+
+  (function(a,b,c,d){
+    a='https://tags.tiqcdn.com/utag/marketingcenter/common/prod/utag.js';
+    b=document;
+    c='script';
+    d=b.createElement(c);
+    d.src=a;
+    d.type='text/java'+c;
+    d.async=true;
+    a=b.getElementsByTagName(c)[0];
+    a.parentNode.insertBefore(d,a);
+  })();
+</script>
+
 <!-- Google tag (gtag.js) -->
-<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-D6FDD8TEE1"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-D6FDD8TEE1"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-D6FDD8TEE1');
 </script>
+
 
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
