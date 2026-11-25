@@ -135,6 +135,55 @@ footer{background:#07101f;padding:48px 5% 32px;border-top:1px solid rgba(255,255
 
 /* Keep 8-item menu accessible on medium desktops. */
 @media (min-width:961px) and (max-width:1170px){.nav-links{display:none}.nav-links.open{display:flex;flex-direction:column;position:absolute;top:84px;left:0;right:0;background:hsl(220,64%,15%);padding:20px 5%;gap:4px;border-bottom:2px solid var(--gold)}.hamburger{display:flex}}
+
+/* Responsive catalogue: do not allow long StockApp codes/names to widen the viewport. */
+html,body{max-width:100%;overflow-x:clip}
+main,.catalog,.product-detail,.container,.results,.product,.product-details,.quote-inner,.quote-actions{min-width:0;max-width:100%}
+.product-code,.product-name,.product-sub,.detail-overline,.detail-title,.detail-lead{overflow-wrap:anywhere;word-break:normal}
+.product-sub{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.product-details::after{display:none}
+.product{overflow:hidden}
+.product-actions{flex-wrap:wrap;min-width:0}
+.product .product-actions button,.product .product-actions input{cursor:pointer}
+.product-actions .remove-btn,.detail-remove{background:#fff;color:#9b2d29;border:1px solid #cb9c9b;border-radius:4px;min-height:42px;padding:9px 12px;font:700 .89rem 'Barlow Condensed',Barlow,Arial,sans-serif}
+.product-actions .remove-btn:hover,.detail-remove:hover{background:#fff1ef}
+.detail-enquiry textarea,.custom-note{display:block;width:100%;max-width:100%;min-height:75px;resize:vertical;margin-top:7px;padding:10px;border:1px solid #bbc9dc;border-radius:5px;font:inherit;color:#0e1f45}
+.detail-custom-label{display:block;margin-top:15px;color:#415b7e;font-size:.88rem;font-weight:700}
+.detail-enquiry-actions .primary,.detail-enquiry-actions .detail-mail,.detail-enquiry-actions .detail-remove{white-space:normal;text-align:center;min-width:0;overflow-wrap:anywhere;line-height:1.25}
+.category-custom{margin:0 0 13px}.category-custom button{border:1px solid #adbed2;background:#fff;color:#16396c;border-radius:5px;padding:10px 14px;font-weight:700}
+.enquiry-drawer{position:fixed;z-index:805;left:0;right:0;bottom:75px;max-height:min(65vh,570px);overflow:auto;background:#fff;border-top:3px solid #d4a017;box-shadow:0 -10px 40px rgba(6,19,42,.23);padding:16px max(5%,calc((100% - 1100px)/2));color:#0e1f45}
+.enquiry-drawer[hidden]{display:none}.enquiry-drawer-head{display:flex;align-items:center;justify-content:space-between;gap:12px}.enquiry-drawer-head h2{font:400 1.7rem 'Bebas Neue',sans-serif}.enquiry-drawer-head button{background:#fff;border:1px solid #b3c0d2;padding:9px 12px;border-radius:4px}
+.enquiry-row{display:grid;grid-template-columns:minmax(0,1fr) 76px auto;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid #e1e7f0}.enquiry-row strong{display:block;overflow-wrap:anywhere;font-size:.95rem}.enquiry-row small{color:#617188;overflow-wrap:anywhere}.enquiry-row input{width:100%;padding:9px;border:1px solid #bac9da;border-radius:4px}.enquiry-row button{background:#fff;border:1px solid #c7a1a1;color:#9b2d29;border-radius:4px;padding:9px}.enquiry-drawer-note{padding:10px 0;font-size:.85rem;color:#5d6f87}
+@media(max-width:700px){.product{display:grid;grid-template-columns:50px minmax(0,1fr);gap:10px;padding:11px}.product-thumb{width:50px;height:50px;grid-column:1;grid-row:1}.product-details{grid-column:2;grid-row:1;min-width:0;padding-right:0!important}.product-code{font-size:.72rem;letter-spacing:.3px}.product-name{font-size:1.04rem}.product-actions{grid-column:1/-1;grid-row:2;display:grid;grid-template-columns:75px minmax(0,1fr) auto;align-items:end;width:100%;padding:0;gap:7px}.product-actions .add-btn{max-width:none;width:100%;min-width:0;padding:5px;font-size:.81rem;letter-spacing:0}.product-actions .remove-btn{padding:5px 8px;min-width:0;font-size:.8rem}.qty-wrap{min-width:0}.quote-inner{width:94%;gap:8px;flex-wrap:wrap;padding:7px 0}.quote-count{font-size:.95rem}.quote-actions{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}.quote-actions .secondary{display:inline-flex;padding:6px 9px;font-size:.75rem;min-height:38px}.quote-actions #clearQuote,.quote-actions #copyQuote{display:none}.quote-inner .primary{white-space:normal;text-align:center;padding:7px 10px;font-size:.8rem;line-height:1.15;min-height:38px}.enquiry-drawer{bottom:64px;padding:12px 4%}.enquiry-row{grid-template-columns:minmax(0,1fr) 65px auto;gap:6px}.enquiry-row button{padding:8px 5px;font-size:.82rem}.detail-enquiry-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:stretch}.detail-qty-label{grid-column:1/-1}.detail-qty-label input{width:90px}.detail-enquiry-actions .primary,.detail-enquiry-actions .detail-mail,.detail-enquiry-actions .detail-remove{width:100%;padding:10px 7px;font-size:.82rem;letter-spacing:0;min-height:44px;flex:none}.detail-enquiry-actions .detail-remove{grid-column:1/-1}.custom{padding:16px}.custom .primary{white-space:normal;text-align:center;width:100%}}
+@media(max-width:375px){.product-actions{grid-template-columns:65px minmax(0,1fr) auto}.quote-inner{align-items:center}.quote-count{font-size:.85rem}}
+
+/* Responsive catalogue final pass (phones, narrow tablets and large text). */
+html,body{max-width:100%;overflow-x:clip}
+#results,.results,.product,.product-details,.product-actions,.categories,.controls,.search,.quote-bar,.quote-inner,.quote-actions,.enquiry-drawer,.enquiry-row{min-width:0;max-width:100%}
+.product-name,.product-code,.product-sub,.enquiry-row strong,.enquiry-row small{overflow-wrap:anywhere}
+.search input,.qty,.detail-qty-label input,.enquiry-row input,.custom-note,.detail-enquiry textarea{font-size:16px}
+.category,.product-actions button,.quote-actions button,.category-custom button{touch-action:manipulation}
+@media(max-width:700px){
+  .category{min-height:42px;white-space:normal;text-align:center;line-height:1.2}
+  .categories{display:flex;flex-wrap:wrap;gap:7px}
+  .product-actions{align-items:stretch}
+  .product-actions .add-btn,.product-actions .remove-btn{min-height:44px;white-space:normal;overflow-wrap:anywhere}
+  .enquiry-drawer{bottom:calc(64px + env(safe-area-inset-bottom,0px));max-height:min(66dvh,520px);overscroll-behavior:contain}
+  .quote-bar{padding-bottom:env(safe-area-inset-bottom,0px)}
+  .quote-inner{min-height:60px;align-items:center}
+  .quote-actions .secondary,.quote-inner .primary{min-height:44px}
+  .detail-enquiry-actions .primary,.detail-enquiry-actions .detail-mail,.detail-enquiry-actions .detail-remove{min-height:44px;overflow-wrap:anywhere}
+}
+@media(max-width:360px){
+  .nav-logo{min-width:0;max-width:calc(100% - 50px)}
+  .nav-logo-img-mobile{max-width:47px}
+  .nav-logo-text-mobile{font-size:.83rem;letter-spacing:.4px}
+  .nav-logo-text-mobile span{font-size:.51rem;letter-spacing:1.2px}
+  .hamburger{flex:0 0 auto;margin-left:auto}
+  .product-actions{grid-template-columns:65px minmax(0,1fr) auto}
+  .quote-inner{width:96%}
+  .quote-inner .primary{padding:8px 8px;font-size:.76rem}
+}
 </style>
 <link rel="stylesheet" href="technical-viewer.css">
 </head>
@@ -152,6 +201,7 @@ footer{background:#07101f;padding:48px 5% 32px;border-top:1px solid rgba(255,255
   <span class="section-eyebrow">Browse &amp; enquire</span><h2 class="catalog-title">Find a product</h2><p class="intro">Search by product name, StockApp code or specification. Select a product card to view its measurements, or add it to your enquiry.</p>
   <div class="controls"><label class="search"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input id="search" type="search" placeholder="Search product or part number" autocomplete="off" aria-label="Search products"></label><span class="help">No online checkout — enquiries by email</span></div>
   <div class="categories" id="categories" role="group" aria-label="Product categories"></div>
+  <div class="category-custom" id="categoryCustom" hidden><button type="button" id="customCategory">Custom enquiry for this category</button></div>
   <div class="results-info" id="resultsInfo" role="status" aria-live="polite">Loading products…</div>
   <div id="results" class="results"></div><div class="more-wrap" id="more"></div>
   <p class="quote-notice">The products shown here are for enquiries only. We will confirm specifications, quantities, price and availability before supplying any parts.</p>
@@ -159,7 +209,8 @@ footer{background:#07101f;padding:48px 5% 32px;border-top:1px solid rgba(255,255
 </div></section>
 <section id="detailView" class="product-detail" hidden aria-label="Product details"></section>
 </main>
-<div class="quote-bar" id="quoteBar" hidden><div class="quote-inner"><div><div class="quote-count" id="quoteCount">1 item selected</div><div class="quote-small">Your email app will open with the selected parts.</div></div><div class="quote-actions"><button type="button" class="secondary" id="clearQuote">Clear</button><button type="button" class="secondary" id="copyQuote">Copy</button><button type="button" class="primary" id="emailQuote">Email enquiry</button></div></div><div class="status container" id="status" aria-live="polite"></div></div>
+<section class="enquiry-drawer" id="enquiryDrawer" hidden aria-label="Review selected enquiry"><div class="enquiry-drawer-head"><h2>Review your enquiry</h2><button type="button" id="closeEnquiry" aria-label="Close enquiry review">Close ×</button></div><div id="enquiryItems" class="enquiry-items"></div><p class="enquiry-drawer-note">Update quantities or remove items before emailing your enquiry.</p></section>
+<div class="quote-bar" id="quoteBar" hidden><div class="quote-inner"><div><div class="quote-count" id="quoteCount">1 item selected</div><div class="quote-small">Your email app will open with the selected parts.</div></div><div class="quote-actions"><button type="button" class="secondary" id="reviewQuote">Review / edit</button><button type="button" class="secondary" id="clearQuote">Clear</button><button type="button" class="secondary" id="copyQuote">Copy</button><button type="button" class="primary" id="emailQuote">Email enquiry</button></div></div><div class="status container" id="status" aria-live="polite"></div></div>
 <footer><div class="footer-inner"><div class="footer-logo"><img src="assets/logo-footer.webp" alt="Circle Line Engineering Ltd"><div class="footer-logo-text">Circle Line Engineering Ltd.<span>Precision Engineering · Auckland, NZ</span></div></div><div class="footer-nav-col"><ul class="footer-links"><li><a href="../#home">Home</a></li><li><a href="../#services">Services</a></li><li><a href="../#capabilities">Capabilities</a></li><li><a href="../#about">About</a></li><li><a href="../#gallery">Gallery</a></li><li><a href="../#reviews">Reviews</a></li><li><a href="./">Products</a></li><li><a href="../#contact">Contact</a></li></ul></div><p class="footer-copy">© 2026 Circle Line Engineering Ltd. All rights reserved. &nbsp;|&nbsp; 8 Marjorie Jayne Crescent, Ōtāhuhu, Auckland 1062 &nbsp;|&nbsp; <a href="mailto:sales@circleline.co.nz">sales@circleline.co.nz</a></p></div></footer>
 <script src="catalog-sample.js"></script>
 <script src="technical-patterns/patterns-fallback.js"></script>

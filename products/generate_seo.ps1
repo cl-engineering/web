@@ -239,6 +239,12 @@ function RenderPage($category,$product,$manifest,[string]$template,[bool]$previe
     }
     $output=$template
     foreach ($token in $tokens.Keys) { $output=$output.Replace($token, [string]$tokens[$token]) }
+    # Ensure GA4 is installed exactly once on every generated product page.
+    # Applies to both Update_Catalogue.cmd and Publish_Catalogue.cmd.
+    if ($output -notmatch 'G-D6FDD8TEE1') {
+        $gaTag = '<script async src="https://www.googletagmanager.com/gtag/js?id=G-D6FDD8TEE1"></script>' + "`n" + '<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag(''js'',new Date());gtag(''config'',''G-D6FDD8TEE1'');</script>'
+        $output = $output.Replace('</head>', $gaTag + "`n" + '</head>')
+    }
     return $output
 }
 function UpdateCatalogue($items, [bool]$preview) {

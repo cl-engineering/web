@@ -28,6 +28,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;600;700&display=swap">
 <link rel="stylesheet" href="../../seo-product.css">
 <link rel="stylesheet" href="../../technical-viewer.css">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-D6FDD8TEE1"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-D6FDD8TEE1');</script>
 <script type="application/ld+json">%%JSON_LD%%</script>
 </head>
 <body>
@@ -50,7 +52,7 @@
 <details><summary>Product photo</summary><div class="inside">%%PHOTO%%</div></details>
 %%PROPERTY_SECTION%%
 <details><summary>Technical notes</summary><div class="inside">%%NOTES%%</div></details>
-<section class="rfq"><h2>Request a quote</h2><p>No online checkout. We will confirm pricing, lead time and availability.</p><div class="actions"><label>Quantity<input id="qty" type="number" min="1" max="1000000" value="1" inputmode="numeric"></label><button id="add" class="button" type="button">Add to enquiry</button><button id="email" class="button secondary" type="button">Email about this part</button></div><p role="status" id="status"></p></section>
+<section class="rfq"><h2>Request a quote</h2><p>No online checkout. We will confirm pricing, lead time and availability.</p><label class="custom-requirements-label">Custom enquiry / requirements for this part<textarea id="customRequirements" maxlength="2000" placeholder="Special dimensions, material, drawing reference or other requirements"></textarea></label><div class="actions"><label>Quantity<input id="qty" type="number" min="1" max="1000000" value="1" inputmode="numeric"></label><button id="add" class="button" type="button">Add to enquiry</button><button id="remove" class="button danger" type="button" hidden>Remove from enquiry</button><button id="email" class="button secondary" type="button">Email about this part</button></div><p role="status" id="status"></p></section>
 </section>
 </main>
 <footer>© 2026 Circle Line Engineering Ltd · Auckland, New Zealand · <a href="mailto:sales@circleline.co.nz">sales@circleline.co.nz</a></footer>

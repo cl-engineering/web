@@ -7,6 +7,8 @@ const escapeHTML=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','
 const products=[];
 const labels=new Map();
 const selected=new Map();
+const personalNotes=new Map();
+try {const saved=JSON.parse(sessionStorage.getItem('circleLineEnquiryNotesV1')||'{}');for(const [k,v] of Object.entries(saved))if(typeof v==='string')personalNotes.set(k,v.slice(0,2000));}catch(e){}
 // Keep a multi-product enquiry when navigating to a crawlable product detail page.
 try { const saved=JSON.parse(sessionStorage.getItem('circleLineEnquiryV1')||'{}'); for (const [key,qty] of Object.entries(saved)){ if(Number.isSafeInteger(qty)&&qty>=1&&qty<=1000000)selected.set(key,qty); } } catch(e) { /* Storage unavailable, enquiry stays in memory. */ }
 let activeCategory='all', query='', visible=18, openProduct=null;
@@ -176,39 +178,46 @@ function render(){
    '<a class="product-card-link" href="part/'+slug(p.id)+'/" aria-label="View details and dimensions for '+escapeHTML(p.name)+'"></a>'+
    '<div class="product-thumb" aria-hidden="true">'+escapeHTML(p.name[0]||'P')+img+'</div>'+
    '<div class="product-details"><div class="product-code">'+escapeHTML(p.id)+' · '+escapeHTML(labels.get(p.category))+'</div><h3 class="product-name">'+escapeHTML(p.name)+'</h3><p class="product-sub" title="'+escapeHTML(summary(p))+'">'+escapeHTML(summary(p))+'</p></div>'+
-   '<div class="product-actions"><label class="qty-wrap">Quantity<input class="qty" type="number" min="1" max="1000000" step="1" inputmode="numeric" value="'+qty+'" aria-label="Quantity for '+escapeHTML(p.id)+'"></label><button type="button" class="add-btn" aria-pressed="'+isSelected+'">'+(isSelected?'✓ Added':'Add to enquiry')+'</button></div></article>';
+   '<div class="product-actions"><label class="qty-wrap">Quantity<input class="qty" type="number" min="1" max="1000000" step="1" inputmode="numeric" value="'+qty+'" aria-label="Quantity for '+escapeHTML(p.id)+'"></label><button type="button" class="add-btn" aria-pressed="'+isSelected+'">'+(isSelected?'Update quantity':'Add to enquiry')+'</button>'+(isSelected?'<button class="remove-btn" type="button">Remove</button>':'')+'</div></article>';
  }).join('');
  $('#more').innerHTML=matching.length>visible?'<button type="button" class="more-btn">Show more ('+(matching.length-visible)+')</button>':'';
  document.querySelectorAll('.stock-image').forEach(img=>img.addEventListener('error',()=>img.remove(),{once:true}));
  updateQuoteBar();
 }
 function validQty(v){const n=Number(v);return Number.isSafeInteger(n)&&n>=1&&n<=1000000?n:null}
-function updateQuoteBar(){const n=selected.size;$('#quoteBar').hidden=!n;$('#quoteCount').textContent=n+' '+(n===1?'item':'items')+' selected';document.body.style.paddingBottom=n?'90px':'0';try{sessionStorage.setItem('circleLineEnquiryV1',JSON.stringify(Object.fromEntries(selected)))}catch(e){/* Storage unavailable */}}
+function updateQuoteBar(){const n=selected.size;$('#quoteBar').hidden=!n;$('#quoteCount').textContent=n+' '+(n===1?'item':'items')+' selected';document.body.style.paddingBottom=n?'100px':'0';try{sessionStorage.setItem('circleLineEnquiryV1',JSON.stringify(Object.fromEntries(selected)))}catch(e){/* Storage unavailable */}}
 $('#results').addEventListener('click',e=>{
- const button=e.target.closest('.add-btn');if(!button)return;
+ const button=e.target.closest('.add-btn,.remove-btn');if(!button)return;
  const article=button.closest('.product'),key=article.dataset.key,input=article.querySelector('.qty');
- if(selected.has(key))selected.delete(key);else{
-  const qty=validQty(input.value);
-  if(!qty){input.focus();input.setCustomValidity('Enter a whole-number quantity between 1 and 1,000,000.');input.reportValidity();return}
-  selected.set(key,qty);
- }
- render();
+ if(button.classList.contains('remove-btn')){selected.delete(key);personalNotes.delete(key);saveNotes();render();return;}
+ const qty=validQty(input.value);
+ if(!qty){input.focus();input.setCustomValidity('Enter a whole-number quantity between 1 and 1,000,000.');input.reportValidity();return;}
+ selected.set(key,qty);render();
 });
+function saveNotes(){try{sessionStorage.setItem('circleLineEnquiryNotesV1',JSON.stringify(Object.fromEntries(personalNotes)))}catch(e){}}
+function quoteReview(){const wrapper=$('#enquiryItems');wrapper.innerHTML=[...selected].map(([key,qty])=>{const p=products.find(x=>x.key===key);return p?'<div class="enquiry-row" data-key="'+escapeHTML(key)+'"><div><strong>'+escapeHTML(p.name)+'</strong><small>'+escapeHTML(p.id)+'</small></div><label>Qty<input type="number" min="1" step="1" max="1000000" value="'+qty+'" aria-label="Quantity for '+escapeHTML(p.name)+'"></label><button type="button" class="review-remove">Remove</button></div>':''}).join('');}
+$('#reviewQuote').addEventListener('click',()=>{const d=$('#enquiryDrawer');if(d.hidden){quoteReview();d.hidden=false}else d.hidden=true;});
+$('#closeEnquiry').addEventListener('click',()=>$('#enquiryDrawer').hidden=true);
+$('#enquiryItems').addEventListener('click',e=>{const b=e.target.closest('.review-remove');if(!b)return;const key=b.closest('.enquiry-row').dataset.key;selected.delete(key);personalNotes.delete(key);saveNotes();quoteReview();render();if(!selected.size)$('#enquiryDrawer').hidden=true;});
+$('#enquiryItems').addEventListener('change',e=>{const input=e.target.closest('input[type=number]');if(!input)return;const n=validQty(input.value);if(!n){input.reportValidity();quoteReview();return;}selected.set(input.closest('.enquiry-row').dataset.key,n);render();});
+function categoryCustomMail(category){const label=labels.get(category)||'Engineering parts';sendMail({subject:'Custom RFQ: '+label,body:'Hello Circle Line,\n\nI would like a quote for a custom part in the '+label+' category.\n\nPart description / drawing reference: \nMaterial: \nDimensions: \nQuantity: \nAdditional requirements: \n\nPlease advise availability and lead time.\n\nThank you.'});}
+$('#customCategory').addEventListener('click',()=>categoryCustomMail(activeCategory));
 $('#results').addEventListener('input',e=>{if(!e.target.matches('.qty'))return;const input=e.target;input.setCustomValidity('');const key=input.closest('.product').dataset.key;if(selected.has(key)){const n=validQty(input.value);if(n)selected.set(key,n)}});
-$('#categories').addEventListener('click',e=>{const button=e.target.closest('[data-cat]');if(!button)return;activeCategory=button.dataset.cat;visible=18;render()});
+$('#categories').addEventListener('click',e=>{const button=e.target.closest('[data-cat]');if(!button)return;activeCategory=button.dataset.cat;visible=18;$('#categoryCustom').hidden=activeCategory==='all';render()});
 $('#search').addEventListener('input',e=>{query=e.target.value.trim().toLowerCase();visible=18;render()});
 $('#more').addEventListener('click',()=>{visible+=18;render()});
-$('#clearQuote').addEventListener('click',()=>{selected.clear();$('#status').textContent='';render()});
+$('#clearQuote').addEventListener('click',()=>{selected.clear();personalNotes.clear();saveNotes();$('#enquiryDrawer').hidden=true;$('#status').textContent='';render()});
 function quoteMail(p,qty){
  const lines=['Hello Circle Line,','','Could you please quote this part?','','Product: '+p.name,'Code: '+p.id,'Quantity: '+qty+' '+p.unit,''];
  p.dimensions.forEach(d=>lines.push(d.letter+' — '+d.label+': '+d.display));
  p.properties.forEach(d=>lines.push(d.name+': '+d.value));
+ if(personalNotes.get(p.key))lines.push('Custom requirements: '+personalNotes.get(p.key));
  lines.push('','Please confirm specifications, price, availability and lead time.','','Thank you.');
  return {subject:'RFQ: '+p.id,body:lines.join('\n')};
 }
 function allMail(){
  const lines=['Hello Circle Line,','','Please quote the following products:',''];let n=0;
- for(const [key,qty] of selected){const p=products.find(x=>x.key===key);if(!p)continue;n++;lines.push(n+'. '+p.name,'   Code: '+p.id,'   Quantity: '+qty+' '+p.unit,'')}
+ for(const [key,qty] of selected){const p=products.find(x=>x.key===key);if(!p)continue;n++;lines.push(n+'. '+p.name,'   Code: '+p.id,'   Quantity: '+qty+' '+p.unit,...(personalNotes.get(key)?['   Custom requirements: '+personalNotes.get(key)]:[]),'')}
  lines.push('Please confirm specifications, price, availability and lead time.','','Thank you.');
  return {subject:n===1?'RFQ: '+products.find(p=>selected.has(p.key)).id:'RFQ: '+n+' products',body:lines.join('\n')};
 }
@@ -264,7 +273,7 @@ function detailHTML(p){
  accordion('Product photo','<div class="reference-gallery reference-single"><div class="reference-card"><div class="reference-body">'+photo+'</div></div></div>')+
  (props?accordion('Material &amp; other details','<div class="prop-list">'+props+'</div>'):'')+
  accordion('Technical notes',notes+'<p class="verification-note">'+escapeHTML(warning)+'</p>')+
- '</div><section class="detail-enquiry"><h3>Request a quote</h3><p>Quote this StockApp product using code <strong>'+escapeHTML(p.id)+'</strong>.</p><div class="detail-enquiry-actions"><label class="detail-qty-label">Quantity<input id="detailQty" type="number" min="1" max="1000000" step="1" inputmode="numeric" value="'+(selected.get(p.key)||1)+'"></label><button class="primary" id="detailAdd" type="button">'+(selected.has(p.key)?'Update enquiry':'Add to enquiry')+'</button><button class="detail-mail" id="detailMail" type="button">Email about this part</button></div><p class="detail-feedback" id="detailFeedback" role="status" aria-live="polite"></p></section></section></div>';
+ '</div><section class="detail-enquiry"><h3>Request a quote</h3><p>Quote this StockApp product using code <strong>'+escapeHTML(p.id)+'</strong>.</p><label class="detail-custom-label">Custom enquiry / requirements for this product<textarea id="detailCustom" maxlength="2000" placeholder="Special material, dimensions, tolerances or drawing reference">'+escapeHTML(personalNotes.get(p.key)||'')+'</textarea></label><div class="detail-enquiry-actions"><label class="detail-qty-label">Quantity<input id="detailQty" type="number" min="1" max="1000000" step="1" inputmode="numeric" value="'+(selected.get(p.key)||1)+'"></label><button class="primary" id="detailAdd" type="button">'+(selected.has(p.key)?'Update enquiry':'Add to enquiry')+'</button><button id="detailRemove" class="detail-remove" type="button"'+(selected.has(p.key)?'':' hidden')+'>Remove from enquiry</button><button class="detail-mail" id="detailMail" type="button">Email about this part</button></div><p class="detail-feedback" id="detailFeedback" role="status" aria-live="polite"></p></section></section></div>';
 }
 function showDetail(p){
  if(!p)return;
@@ -291,9 +300,11 @@ function showDetail(p){
  window.scrollTo({top:0,behavior:'instant'});
  document.querySelectorAll('.detail-photo').forEach(img=>img.addEventListener('error',()=>{img.replaceWith(Object.assign(document.createElement('div'),{className:'photo-placeholder',textContent:'Product photo could not be loaded. Check its image path in catalog.json.'}))},{once:true}));
  $('#backProducts').addEventListener('click',()=>{location.hash='';syncDetailRoute()});
- $('#detailAdd').addEventListener('click',()=>{const input=$('#detailQty'),n=validQty(input.value);if(!n){input.setCustomValidity('Enter a whole-number quantity between 1 and 1,000,000.');input.reportValidity();return}input.setCustomValidity('');selected.set(p.key,n);$('#detailFeedback').textContent='Added '+n+' '+p.unit+' to your enquiry.';$('#detailAdd').textContent='Update enquiry';render()});
+ $('#detailAdd').addEventListener('click',()=>{const input=$('#detailQty'),n=validQty(input.value);if(!n){input.setCustomValidity('Enter a whole-number quantity between 1 and 1,000,000.');input.reportValidity();return}input.setCustomValidity('');selected.set(p.key,n);personalNotes.set(p.key,$('#detailCustom').value.trim());saveNotes();$('#detailFeedback').textContent='Saved '+n+' '+p.unit+' to your enquiry.';$('#detailAdd').textContent='Update enquiry';$('#detailRemove').hidden=false;render()});
+ $('#detailRemove').addEventListener('click',()=>{selected.delete(p.key);personalNotes.delete(p.key);saveNotes();$('#detailCustom').value='';$('#detailAdd').textContent='Add to enquiry';$('#detailRemove').hidden=true;$('#detailFeedback').textContent='Removed from your enquiry.';render()});
+ $('#detailCustom').addEventListener('change',()=>{if(selected.has(p.key)){personalNotes.set(p.key,$('#detailCustom').value.trim());saveNotes();}});
  $('#detailQty').addEventListener('input',()=>$('#detailQty').setCustomValidity(''));
- $('#detailMail').addEventListener('click',()=>{const input=$('#detailQty'),n=validQty(input.value);if(!n){input.setCustomValidity('Enter a valid whole-number quantity.');input.reportValidity();return}input.setCustomValidity('');sendMail(quoteMail(p,n));$('#detailFeedback').textContent='Review the draft in your email app before sending.'});
+ $('#detailMail').addEventListener('click',()=>{const input=$('#detailQty'),n=validQty(input.value);if(!n){input.setCustomValidity('Enter a valid whole-number quantity.');input.reportValidity();return}input.setCustomValidity('');personalNotes.set(p.key,$('#detailCustom').value.trim());saveNotes();sendMail(quoteMail(p,n));$('#detailFeedback').textContent='Review the draft in your email app before sending.'});
 }
 function syncDetailRoute(){
  let hash='';try{hash=decodeURIComponent(location.hash.slice(1))}catch(e){hash=location.hash.slice(1)}

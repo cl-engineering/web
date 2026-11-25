@@ -9,3 +9,25 @@ details{border:1px solid var(--line);border-radius:6px;margin-top:10px}summary{c
 @media(max-width:750px){header img{height:48px}main{margin-top:20px}.panel{padding:15px}.views{grid-template-columns:1fr}.dim{grid-template-columns:30px minmax(0,1fr)}.dim strong{grid-column:2}.actions .button{flex:1}}
 
 .preview-notice{padding:15px 18px;margin-bottom:16px;background:#fff2d0;color:#503900;border:1px solid #d2a83e;border-radius:6px;font-weight:700;font-size:.91rem}
+
+/* Mobile overrides for product enquiry controls */
+html,body{max-width:100%;overflow-x:clip}main,.panel,.rfq{min-width:0;max-width:100%}h1,.code,.intro{overflow-wrap:anywhere}.actions{align-items:stretch}.actions .button{white-space:normal;text-align:center;min-width:0;line-height:1.3;overflow-wrap:anywhere}.custom-requirements-label{display:block;margin-top:16px}.custom-requirements-label textarea{display:block;width:100%;max-width:100%;min-height:80px;margin:6px 0;padding:10px;border:1px solid #bdcbe0;border-radius:5px;font:inherit;resize:vertical}.button.danger{background:#fff;border:1px solid #c99a9a;color:#8c2b2b}.button[hidden]{display:none!important}
+@media(max-width:600px){main{width:92%}.rfq{padding:14px}.actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}.actions label{grid-column:1/-1}.actions .button{padding:11px 7px;font-size:.88rem}.actions .button.danger{grid-column:1/-1}header{padding:12px 4%}header img{max-width:160px}header nav{gap:8px;font-size:.86rem}}
+
+/* Shared viewport safety for generated product pages. */
+html,body{max-width:100%;overflow-x:clip}
+.panel,.tech-browser,.tech-drawing-panel,.tech-measures-panel,.tech-dimension,.tech-views,.tech-view,.rfq,.actions{min-width:0;max-width:100%}
+.tech-dimension,.tech-dimension *,.code,h1,.crumb{overflow-wrap:anywhere}
+input,textarea,select{font-size:16px;max-width:100%}
+@media(max-width:600px){
+  .actions .button{min-height:44px;white-space:normal;overflow-wrap:anywhere}
+  .tech-view-tabs{display:flex;flex-wrap:wrap;gap:6px}
+  .tech-view-tab{min-height:40px;white-space:normal}
+  .panel{padding:14px}
+}
+@media(max-width:360px){
+  header{gap:8px;padding:10px 4%}
+  header img{max-width:125px;height:auto}
+  header nav{gap:8px;font-size:.8rem}
+  .actions{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+}

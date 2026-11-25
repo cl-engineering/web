@@ -87,3 +87,11 @@ snapshot rather than later StockApp exports; use the web-server URL to view
 updated inventory. The published catalogue displays no offline warning.
 Upload the CONTENTS of the site root, not a nested /Newer/ folder.
 Review any demonstration products before allowing search engines to index them.
+
+MOBILE ENQUIRY: Use Add/Update/Remove on cards or individual product pages. Review/edit opens a selected-products panel. Product custom requirements are saved with the enquiry and included in mailto drafts. The selected category offers a custom RFQ email link. Changes to seo-product-template.tpl are used for future generated pages.
+
+GOOGLE ANALYTICS (GA4)
+Both Update_Catalogue.cmd and Publish_Catalogue.cmd use generate_seo.ps1.
+The generated product pages automatically include GA4 measurement ID G-D6FDD8TEE1 exactly once.
+Existing product pages in this package also contain the same GA4 tag.
+To change the GA4 ID later, update seo-product-template.tpl and generate_seo.ps1.
