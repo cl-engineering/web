@@ -60,7 +60,19 @@ function allEnquiryEmail(){
  const subject=entries.length===1?'RFQ: '+codeFor(entries[0][0]):'RFQ: '+entries.length+' products';
  location.href='mailto:sales@circleline.co.nz?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(lines.join('\n'));
 }
+async function copySharedEnquiry(){
+ const entries=savedEntries();if(!entries.length)return;
+ const n=notes(),lines=['To: sales@circleline.co.nz','Subject: '+(entries.length===1?'RFQ: '+codeFor(entries[0][0]):'RFQ: '+entries.length+' products'),'','Hello Circle Line,','','Please quote the following products:',''];
+ entries.forEach(([k,q],i)=>{lines.push((i+1)+'. '+labelFor(k),'   Code: '+codeFor(k),'   Quantity: '+q+' '+unitFor(k));if(n[k])lines.push('   Custom requirements: '+n[k]);lines.push('')});
+ lines.push('Please confirm specifications, price, availability and lead time.','','Thank you.');
+ const text=lines.join('\n');
+ try{await navigator.clipboard.writeText(text);if(status)status.textContent='Enquiry copied to clipboard.'}
+ catch(error){const field=document.createElement('textarea');field.value=text;field.style.cssText='position:fixed;left:-9999px';document.body.appendChild(field);field.select();let ok=false;try{ok=document.execCommand('copy')}catch(e){}field.remove();if(status)status.textContent=ok?'Enquiry copied.':'Copy failed; please use Email enquiry.'}
+}
+
 if(partBar){
+ document.querySelector('#partCopy')?.addEventListener('click',copySharedEnquiry);
+ document.querySelector('#partCopyReview')?.addEventListener('click',copySharedEnquiry);
  document.querySelector('#partReview')?.addEventListener('click',()=>{partDrawer.hidden=!partDrawer.hidden;if(!partDrawer.hidden)renderSharedReview()});
  document.querySelector('#partCloseReview')?.addEventListener('click',()=>partDrawer.hidden=true);
  document.querySelector('#partEmailAll')?.addEventListener('click',allEnquiryEmail);

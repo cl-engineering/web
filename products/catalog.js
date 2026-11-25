@@ -206,7 +206,6 @@ $('#results').addEventListener('input',e=>{if(!e.target.matches('.qty'))return;c
 $('#categories').addEventListener('click',e=>{const button=e.target.closest('[data-cat]');if(!button)return;activeCategory=button.dataset.cat;visible=18;$('#categoryCustom').hidden=activeCategory==='all';render()});
 $('#search').addEventListener('input',e=>{query=e.target.value.trim().toLowerCase();visible=18;render()});
 $('#more').addEventListener('click',()=>{visible+=18;render()});
-$('#clearQuote').addEventListener('click',()=>{selected.clear();personalNotes.clear();saveNotes();$('#enquiryDrawer').hidden=true;$('#status').textContent='';render()});
 function quoteMail(p,qty){
  const lines=['Hello Circle Line,','','Could you please quote this part?','','Product: '+p.name,'Code: '+p.id,'Quantity: '+qty+' '+p.unit,''];
  p.dimensions.forEach(d=>lines.push(d.letter+' — '+d.label+': '+d.display));
@@ -223,12 +222,14 @@ function allMail(){
 }
 function sendMail(msg){location.href='mailto:'+EMAIL+'?subject='+encodeURIComponent(msg.subject)+'&body='+encodeURIComponent(msg.body)}
 $('#emailQuote').addEventListener('click',()=>{if(selected.size)sendMail(allMail());$('#status').textContent='Review the draft in your email app before sending.'});
-$('#copyQuote').addEventListener('click',async()=>{
+async function copyEnquiry(){
  if(!selected.size)return;
  const m=allMail(),text='To: '+EMAIL+'\nSubject: '+m.subject+'\n\n'+m.body;
  try{await navigator.clipboard.writeText(text);$('#status').textContent='Enquiry copied to clipboard.'}
  catch(e){const el=document.createElement('textarea');el.value=text;el.style.cssText='position:fixed;left:-9999px';document.body.appendChild(el);el.select();const ok=document.execCommand('copy');el.remove();$('#status').textContent=ok?'Enquiry copied.':'Copy failed; please use Email enquiry.'}
-});
+}
+$('#copyQuote').addEventListener('click',copyEnquiry);
+$('#copyQuoteReview')?.addEventListener('click',copyEnquiry);
 $('#customEmail').href='mailto:'+EMAIL+'?subject='+encodeURIComponent('RFQ: Custom machined parts')+'&body='+encodeURIComponent('Hello Circle Line,\n\nI would like a quote for a custom machined part. I can provide a drawing or sample.\n\nMaterial: \nQuantity: \nRequirements: \n\nThank you.');
 const menu=$('#navLinks'),hamburger=$('#hamburger');
 function setMenu(open){menu.classList.toggle('open',open);hamburger.setAttribute('aria-expanded',String(open))}

@@ -52,3 +52,15 @@ input,textarea,select{font-size:16px;max-width:100%}
  .part-item-remove{padding:8px 5px;font-size:.8rem}
 }
 @media(max-width:360px){.part-bar-actions button{font-size:.71rem;padding:6px}.part-bar-inner{gap:5px}}
+
+/* Match catalogue enquiry controls on product detail pages. */
+.part-bar-actions button,.part-drawer-head button,.part-item-remove{font-family:'Barlow Condensed',Barlow,Arial,sans-serif;text-transform:uppercase;font-weight:700;letter-spacing:.35px}
+.part-enquiry-item label{display:flex;flex-direction:column;gap:5px;min-width:0;font-family:'Barlow Condensed',Barlow,Arial,sans-serif;font-weight:700;font-size:.82rem}
+.part-enquiry-item label input{width:100%;height:44px;min-height:44px;margin:0;box-sizing:border-box;font:inherit;font-size:16px}
+.part-enquiry-item .part-item-remove{display:inline-flex;align-items:center;justify-content:center;min-height:44px;height:44px;margin:0;box-sizing:border-box;white-space:nowrap}
+@media(max-width:700px){
+  .part-enquiry-item{grid-template-columns:minmax(0,1fr) minmax(96px,auto);gap:10px 12px;align-items:end;padding:14px 0}
+  .part-enquiry-item>div:first-child{grid-column:1/-1;min-width:0}
+  .part-enquiry-item>label{grid-column:1;width:min(135px,100%);align-self:end}
+  .part-enquiry-item>.part-item-remove{grid-column:2;align-self:end;width:100%;padding:8px 12px;font-size:.85rem}
+}
