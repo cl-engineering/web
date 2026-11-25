@@ -1,2 +1,0 @@
-// Shared mobile navigation on generated product pages.
-(()=>{const menu=document.getElementById('navLinks');const toggle=document.getElementById('hamburger');if(!menu||!toggle)return;const setOpen=open=>{menu.classList.toggle('open',open);toggle.setAttribute('aria-expanded',String(open));};toggle.addEventListener('click',()=>setOpen(!menu.classList.contains('open')));menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setOpen(false)));document.addEventListener('keydown',e=>{if(e.key==='Escape')setOpen(false)});})();
