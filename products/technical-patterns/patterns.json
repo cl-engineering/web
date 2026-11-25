@@ -1,0 +1,1741 @@
+{
+  "version": 2,
+  "description": "Editable SVG patterns shared by the template preview and catalogue",
+  "templates": [
+    {
+      "id": "hex_bolt",
+      "type": "hex_bolt",
+      "bearingSeat": "none",
+      "label": "Hex bolt",
+      "views": [
+        {
+          "name": "Side view",
+          "file": "svg/hex_bolt__1.svg"
+        },
+        {
+          "name": "Head view",
+          "file": "svg/hex_bolt__2.svg"
+        },
+        {
+          "name": "Thread pitch detail",
+          "file": "svg/hex_bolt__3.svg"
+        }
+      ],
+      "sample": {
+        "type": "hex_bolt",
+        "bearingSeat": "none",
+        "name": "Hex Bolt M10 x 35 mm | A2-70 Stainless Steel",
+        "id": "CL-DEMO-BOLT-HX-M10X35-A2",
+        "dimensions": [
+          {
+            "key": "thread_size",
+            "label": "Thread size",
+            "value": "M10",
+            "unit": "",
+            "letter": "A",
+            "display": "M10"
+          },
+          {
+            "key": "pitch",
+            "label": "Pitch",
+            "value": "1.5",
+            "unit": "mm",
+            "letter": "B",
+            "display": "1.5 mm"
+          },
+          {
+            "key": "length_under_head",
+            "label": "Length under head",
+            "value": "35",
+            "unit": "mm",
+            "letter": "C",
+            "display": "35 mm"
+          },
+          {
+            "key": "head_width_across_flats",
+            "label": "Head width across flats",
+            "value": "17",
+            "unit": "mm",
+            "letter": "D",
+            "display": "17 mm"
+          },
+          {
+            "key": "head_height",
+            "label": "Head height",
+            "value": "6.4",
+            "unit": "mm",
+            "letter": "E",
+            "display": "6.4 mm"
+          }
+        ]
+      }
+    },
+    {
+      "id": "t_bolt",
+      "type": "t_bolt",
+      "bearingSeat": "none",
+      "label": "T-bolt",
+      "views": [
+        {
+          "name": "Side view",
+          "file": "svg/t_bolt__1.svg"
+        },
+        {
+          "name": "T-head view",
+          "file": "svg/t_bolt__2.svg"
+        },
+        {
+          "name": "Thread pitch",
+          "file": "svg/t_bolt__3.svg"
+        },
+        {
+          "name": "Slot reference",
+          "file": "svg/t_bolt__4.svg"
+        }
+      ],
+      "sample": {
+        "type": "t_bolt",
+        "bearingSeat": "none",
+        "name": "T-Bolt M12 x 80 mm | 18 mm Slot | Class 8.8",
+        "id": "CL-DEMO-BOLT-T-M12X80-S18",
+        "dimensions": [
+          {
+            "key": "thread_size",
+            "label": "Thread size",
+            "value": "M12",
+            "unit": "",
+            "letter": "A",
+            "display": "M12"
+          },
+          {
+            "key": "pitch",
+            "label": "Pitch",
+            "value": "1.75",
+            "unit": "mm",
+            "letter": "B",
+            "display": "1.75 mm"
+          },
+          {
+            "key": "length_under_head",
+            "label": "Length under head",
+            "value": "80",
+            "unit": "mm",
+            "letter": "C",
+            "display": "80 mm"
+          },
+          {
+            "key": "t_head_width",
+            "label": "T-head width",
+            "value": "17",
+            "unit": "mm",
+            "letter": "D",
+            "display": "17 mm"
+          },
+          {
+            "key": "t_head_length",
+            "label": "T-head length",
+            "value": "24",
+            "unit": "mm",
+            "letter": "E",
+            "display": "24 mm"
+          },
+          {
+            "key": "t_head_thickness",
+            "label": "T-head thickness",
+            "value": "7",
+            "unit": "mm",
+            "letter": "F",
+            "display": "7 mm"
+          },
+          {
+            "key": "slot_width",
+            "label": "Slot width",
+            "value": "18",
+            "unit": "mm",
+            "letter": "G",
+            "display": "18 mm"
+          }
+        ]
+      }
+    },
+    {
+      "id": "double_ended_stud",
+      "type": "double_ended_stud",
+      "bearingSeat": "none",
+      "label": "Double-ended stud",
+      "views": [
+        {
+          "name": "Side view",
+          "file": "svg/double_ended_stud__1.svg"
+        },
+        {
+          "name": "Thread pitch",
+          "file": "svg/double_ended_stud__2.svg"
+        }
+      ],
+      "sample": {
+        "type": "double_ended_stud",
+        "bearingSeat": "none",
+        "name": "Double-Ended Stud M16 x 120 mm | Steel",
+        "id": "CL-DEMO-STUD-M16X120",
+        "dimensions": [
+          {
+            "key": "thread_size",
+            "label": "Thread size",
+            "value": "M16",
+            "unit": "",
+            "letter": "A",
+            "display": "M16"
+          },
+          {
+            "key": "pitch",
+            "label": "Pitch",
+            "value": "2.0",
+            "unit": "mm",
+            "letter": "B",
+            "display": "2.0 mm"
+          },
+          {
+            "key": "overall_length",
+            "label": "Overall length",
+            "value": "120",
+            "unit": "mm",
+            "letter": "C",
+            "display": "120 mm"
+          },
+          {
+            "key": "thread_length_end_1",
+            "label": "Thread length at end 1",
+            "value": "35",
+            "unit": "mm",
+            "letter": "D",
+            "display": "35 mm"
+          },
+          {
+            "key": "thread_length_end_2",
+            "label": "Thread length at end 2",
+            "value": "35",
+            "unit": "mm",
+            "letter": "E",
+            "display": "35 mm"
+          },
+          {
+            "key": "unthreaded_length",
+            "label": "Unthreaded length",
+            "value": "50",
+            "unit": "mm",
+            "letter": "F",
+            "display": "50 mm"
+          }
+        ]
+      }
+    },
+    {
+      "id": "hex_nut",
+      "type": "hex_nut",
+      "bearingSeat": "none",
+      "label": "Hex nut",
+      "views": [
+        {
+          "name": "Top view",
+          "file": "svg/hex_nut__1.svg"
+        },
+        {
+          "name": "Side view",
+          "file": "svg/hex_nut__2.svg"
+        },
+        {
+          "name": "Thread pitch",
+          "file": "svg/hex_nut__3.svg"
+        }
+      ],
+      "sample": {
+        "type": "hex_nut",
+        "bearingSeat": "none",
+        "name": "Hex Nut M12 | Class 8 | Zinc-Plated Steel",
+        "id": "CL-DEMO-NUT-HX-M12",
+        "dimensions": [
+          {
+            "key": "thread_size",
+            "label": "Thread size",
+            "value": "M12",
+            "unit": "",
+            "letter": "A",
+            "display": "M12"
+          },
+          {
+            "key": "pitch",
+            "label": "Pitch",
+            "value": "1.75",
+            "unit": "mm",
+            "letter": "B",
+            "display": "1.75 mm"
+          },
+          {
+            "key": "across_flats",
+            "label": "Across flats",
+            "value": "19",
+            "unit": "mm",
+            "letter": "C",
+            "display": "19 mm"
+          },
+          {
+            "key": "height",
+            "label": "Height",
+            "value": "10",
+            "unit": "mm",
+            "letter": "D",
+            "display": "10 mm"
+          }
+        ]
+      }
+    },
+    {
+      "id": "lock_nut",
+      "type": "lock_nut",
+      "bearingSeat": "none",
+      "label": "Lock nut",
+      "views": [
+        {
+          "name": "Top view",
+          "file": "svg/lock_nut__1.svg"
+        },
+        {
+          "name": "Side view",
+          "file": "svg/lock_nut__2.svg"
+        },
+        {
+          "name": "Thread pitch",
+          "file": "svg/lock_nut__3.svg"
+        }
+      ],
+      "sample": {
+        "type": "lock_nut",
+        "bearingSeat": "none",
+        "name": "Nyloc Lock Nut M16 | Class 10 | Zinc-Plated Steel",
+        "id": "CL-DEMO-NUT-LOCK-M16",
+        "dimensions": [
+          {
+            "key": "thread_size",
+            "label": "Thread size",
+            "value": "M16",
+            "unit": "",
+            "letter": "A",
+            "display": "M16"
+          },
+          {
+            "key": "pitch",
+            "label": "Pitch",
+            "value": "2.0",
+            "unit": "mm",
+            "letter": "B",
+            "display": "2.0 mm"
+          },
+          {
+            "key": "across_flats",
+            "label": "Across flats",
+            "value": "24",
+            "unit": "mm",
+            "letter": "C",
+            "display": "24 mm"
+          },
+          {
+            "key": "height",
+            "label": "Height",
+            "value": "16",
+            "unit": "mm",
+            "letter": "D",
+            "display": "16 mm"
+          }
+        ]
+      }
+    },
+    {
+      "id": "flange_nut",
+      "type": "flange_nut",
+      "bearingSeat": "none",
+      "label": "Flange nut",
+      "views": [
+        {
+          "name": "Top view",
+          "file": "svg/flange_nut__1.svg"
+        },
+        {
+          "name": "Side view",
+          "file": "svg/flange_nut__2.svg"
+        },
+        {
+          "name": "Thread pitch",
+          "file": "svg/flange_nut__3.svg"
+        }
+      ],
+      "sample": {
+        "type": "flange_nut",
+        "bearingSeat": "none",
+        "name": "Flange Nut M10 | Serrated Base | Steel",
+        "id": "CL-DEMO-NUT-FLANGE-M10",
+        "dimensions": [
+          {
+            "key": "thread_size",
+            "label": "Thread size",
+            "value": "M10",
+            "unit": "",
+            "letter": "A",
+            "display": "M10"
+          },
+          {
+            "key": "pitch",
+            "label": "Pitch",
+            "value": "1.5",
+            "unit": "mm",
+            "letter": "B",
+            "display": "1.5 mm"
+          },
+          {
+            "key": "across_flats",
+            "label": "Across flats",
+            "value": "17",
+            "unit": "mm",
+            "letter": "C",
+            "display": "17 mm"
+          },
+          {
+            "key": "height",
+            "label": "Height",
+            "value": "10",
+            "unit": "mm",
+            "letter": "D",
+            "display": "10 mm"
+          },
+          {
+            "key": "flange_diameter",
+            "label": "Flange diameter",
+            "value": "21",
+            "unit": "mm",
+            "letter": "E",
+            "display": "21 mm"
+          },
+          {
+            "key": "flange_thickness",
+            "label": "Flange thickness",
+            "value": "2",
+            "unit": "mm",
+            "letter": "F",
+            "display": "2 mm"
+          }
+        ]
+      }
+    },
+    {
+      "id": "plain_bush",
+      "type": "plain_bush",
+      "bearingSeat": "none",
+      "label": "Plain bush",
+      "views": [
+        {
+          "name": "Front view",
+          "file": "svg/plain_bush__1.svg"
+        },
+        {
+          "name": "Axial section",
+          "file": "svg/plain_bush__2.svg"
+        }
+      ],
+      "sample": {
+        "type": "plain_bush",
+        "bearingSeat": "none",
+        "name": "Plain Bush 20 ID x 30 OD x 25 mm | Bronze",
+        "id": "CL-DEMO-BUSH-PL-020X030X025",
+        "dimensions": [
+          {
+            "key": "inside_diameter",
+            "label": "Inside diameter",
+            "value": "20",
+            "unit": "mm",
+            "letter": "A",
+            "display": "20 mm"
+          },
+          {
+            "key": "outside_diameter",
+            "label": "Outside diameter",
+            "value": "30",
+            "unit": "mm",
+            "letter": "B",
+            "display": "30 mm"
+          },
+          {
+            "key": "overall_length",
+            "label": "Overall length",
+            "value": "25",
+            "unit": "mm",
+            "letter": "C",
+            "display": "25 mm"
+          }
+        ]
+      }
+    },
+    {
+      "id": "flanged_bush",
+      "type": "flanged_bush",
+      "bearingSeat": "none",
+      "label": "Flanged bush",
+      "views": [
+        {
+          "name": "Front view",
+          "file": "svg/flanged_bush__1.svg"
+        },
+        {
+          "name": "Axial section",
+          "file": "svg/flanged_bush__2.svg"
+        }
+      ],
+      "sample": {
+        "type": "flanged_bush",
+        "bearingSeat": "none",
+        "name": "Flanged Bush 20 ID x 30 Body OD x 25 mm | Bronze",
+        "id": "CL-DEMO-BUSH-FL-020X030X045",
+        "dimensions": [
+          {
+            "key": "inside_diameter",
+            "label": "Inside diameter",
+            "value": "20",
+            "unit": "mm",
+            "letter": "A",
+            "display": "20 mm"
+          },
+          {
+            "key": "body_outside_diameter",
+            "label": "Body outside diameter",
+            "value": "30",
+            "unit": "mm",
+            "letter": "B",
+            "display": "30 mm"
+          },
+          {
+            "key": "overall_length",
+            "label": "Overall length",
+            "value": "25",
+            "unit": "mm",
+            "letter": "C",
+            "display": "25 mm"
+          },
+          {
+            "key": "flange_diameter",
+            "label": "Flange diameter",
+            "value": "45",
+            "unit": "mm",
+            "letter": "D",
+            "display": "45 mm"
+          },
+          {
+            "key": "flange_thickness",
+            "label": "Flange thickness",
+            "value": "5",
+            "unit": "mm",
+            "letter": "E",
+            "display": "5 mm"
+          }
+        ]
+      }
+    },
+    {
+      "id": "flat_washer",
+      "type": "flat_washer",
+      "bearingSeat": "none",
+      "label": "Flat washer",
+      "views": [
+        {
+          "name": "Front view",
+          "file": "svg/flat_washer__1.svg"
+        },
+        {
+          "name": "Side view",
+          "file": "svg/flat_washer__2.svg"
+        }
+      ],
+      "sample": {
+        "type": "flat_washer",
+        "bearingSeat": "none",
+        "name": "Flat Washer M12 | 200 HV Example | Zinc-Plated Steel",
+        "id": "CL-DEMO-WASH-FLAT-M12",
+        "dimensions": [
+          {
+            "key": "inside_diameter",
+            "label": "Inside diameter",
+            "value": "13",
+            "unit": "mm",
+            "letter": "A",
+            "display": "13 mm"
+          },
+          {
+            "key": "outside_diameter",
+            "label": "Outside diameter",
+            "value": "24",
+            "unit": "mm",
+            "letter": "B",
+            "display": "24 mm"
+          },
+          {
+            "key": "thickness",
+            "label": "Thickness",
+            "value": "2.5",
+            "unit": "mm",
+            "letter": "C",
+            "display": "2.5 mm"
+          }
+        ]
+      }
+    },
+    {
+      "id": "spring_washer",
+      "type": "spring_washer",
+      "bearingSeat": "none",
+      "label": "Spring washer",
+      "views": [
+        {
+          "name": "Front view",
+          "file": "svg/spring_washer__1.svg"
+        },
+        {
+          "name": "Side view",
+          "file": "svg/spring_washer__2.svg"
+        }
+      ],
+      "sample": {
+        "type": "spring_washer",
+        "bearingSeat": "none",
+        "name": "Spring Washer M10 | Split Type | Steel",
+        "id": "CL-DEMO-WASH-SPR-M10",
+        "dimensions": [
+          {
+            "key": "inside_diameter",
+            "label": "Inside diameter",
+            "value": "10.2",
+            "unit": "mm",
+            "letter": "A",
+            "display": "10.2 mm"
+          },
+          {
+            "key": "outside_diameter",
+            "label": "Outside diameter",
+            "value": "16.2",
+            "unit": "mm",
+            "letter": "B",
+            "display": "16.2 mm"
+          },
+          {
+            "key": "thickness",
+            "label": "Thickness",
+            "value": "2.5",
+            "unit": "mm",
+            "letter": "C",
+            "display": "2.5 mm"
+          }
+        ]
+      }
+    },
+    {
+      "id": "hardened_washer",
+      "type": "hardened_washer",
+      "bearingSeat": "none",
+      "label": "Hardened washer",
+      "views": [
+        {
+          "name": "Front view",
+          "file": "svg/hardened_washer__1.svg"
+        },
+        {
+          "name": "Side view",
+          "file": "svg/hardened_washer__2.svg"
+        }
+      ],
+      "sample": {
+        "type": "hardened_washer",
+        "bearingSeat": "none",
+        "name": "Hardened Washer M16 | 300 HV Example | Steel",
+        "id": "CL-DEMO-WASH-HARD-M16",
+        "dimensions": [
+          {
+            "key": "inside_diameter",
+            "label": "Inside diameter",
+            "value": "17",
+            "unit": "mm",
+            "letter": "A",
+            "display": "17 mm"
+          },
+          {
+            "key": "outside_diameter",
+            "label": "Outside diameter",
+            "value": "30",
+            "unit": "mm",
+            "letter": "B",
+            "display": "30 mm"
+          },
+          {
+            "key": "thickness",
+            "label": "Thickness",
+            "value": "3",
+            "unit": "mm",
+            "letter": "C",
+            "display": "3 mm"
+          }
+        ]
+      }
+    },
+    {
+      "id": "v_groove__none",
+      "type": "v_groove",
+      "bearingSeat": "none",
+      "label": "V-groove roller — none",
+      "views": [
+        {
+          "name": "Front view",
+          "file": "svg/v_groove__none__1.svg"
+        },
+        {
+          "name": "Axial section",
+          "file": "svg/v_groove__none__2.svg"
+        },
+        {
+          "name": "Groove detail",
+          "file": "svg/v_groove__none__3.svg"
+        }
+      ],
+      "sample": {
+        "type": "v_groove",
+        "bearingSeat": "none",
+        "name": "V-Groove Roller 80 x 35 mm | 4140 Steel",
+        "id": "CL-DEMO-ROL-V-080X35",
+        "dimensions": [
+          {
+            "key": "outside_diameter",
+            "label": "Outside diameter",
+            "value": "80",
+            "unit": "mm",
+            "letter": "A",
+            "display": "80 mm"
+          },
+          {
+            "key": "overall_width",
+            "label": "Overall width",
+            "value": "35",
+            "unit": "mm",
+            "letter": "B",
+            "display": "35 mm"
+          },
+          {
+            "key": "centre_bore",
+            "label": "Centre bore",
+            "value": "20",
+            "unit": "mm",
+            "letter": "C",
+            "display": "20 mm"
+          },
+          {
+            "key": "groove_angle",
+            "label": "Groove angle",
+            "value": "90",
+            "unit": "deg",
+            "letter": "D",
+            "display": "90°"
+          },
+          {
+            "key": "groove_depth",
+            "label": "Groove depth",
+            "value": "7",
+            "unit": "mm",
+            "letter": "E",
+            "display": "7 mm"
+          }
+        ]
+      }
+    },
+    {
+      "id": "v_groove__one_side",
+      "type": "v_groove",
+      "bearingSeat": "one_side",
+      "label": "V-groove roller — one side",
+      "views": [
+        {
+          "name": "Front view",
+          "file": "svg/v_groove__one_side__1.svg"
+        },
+        {
+          "name": "Axial section",
+          "file": "svg/v_groove__one_side__2.svg"
+        },
+        {
+          "name": "Groove detail",
+          "file": "svg/v_groove__one_side__3.svg"
+        }
+      ],
+      "sample": {
+        "type": "v_groove",
+        "bearingSeat": "one_side",
+        "name": "V-Groove Roller 80 x 35 mm | 4140 Steel",
+        "id": "CL-DEMO-ROL-V-080X35",
+        "dimensions": [
+          {
+            "key": "outside_diameter",
+            "label": "Outside diameter",
+            "value": "80",
+            "unit": "mm",
+            "letter": "A",
+            "display": "80 mm"
+          },
+          {
+            "key": "overall_width",
+            "label": "Overall width",
+            "value": "35",
+            "unit": "mm",
+            "letter": "B",
+            "display": "35 mm"
+          },
+          {
+            "key": "centre_bore",
+            "label": "Centre bore",
+            "value": "20",
+            "unit": "mm",
+            "letter": "C",
+            "display": "20 mm"
+          },
+          {
+            "key": "groove_angle",
+            "label": "Groove angle",
+            "value": "90",
+            "unit": "deg",
+            "letter": "D",
+            "display": "90°"
+          },
+          {
+            "key": "groove_depth",
+            "label": "Groove depth",
+            "value": "7",
+            "unit": "mm",
+            "letter": "E",
+            "display": "7 mm"
+          },
+          {
+            "key": "bearing_seat_diameter_side_1",
+            "label": "Bearing seat diameter - side 1",
+            "value": "42",
+            "unit": "mm",
+            "letter": "F",
+            "display": "42 mm"
+          },
+          {
+            "key": "bearing_seat_depth_side_1",
+            "label": "Bearing seat depth - side 1",
+            "value": "10",
+            "unit": "mm",
+            "letter": "G",
+            "display": "10 mm"
+          }
+        ]
+      }
+    },
+    {
+      "id": "v_groove__both_sides",
+      "type": "v_groove",
+      "bearingSeat": "both_sides",
+      "label": "V-groove roller — both sides",
+      "views": [
+        {
+          "name": "Front view",
+          "file": "svg/v_groove__both_sides__1.svg"
+        },
+        {
+          "name": "Axial section",
+          "file": "svg/v_groove__both_sides__2.svg"
+        },
+        {
+          "name": "Groove detail",
+          "file": "svg/v_groove__both_sides__3.svg"
+        }
+      ],
+      "sample": {
+        "type": "v_groove",
+        "bearingSeat": "both_sides",
+        "name": "V-Groove Roller 80 x 35 mm | 4140 Steel",
+        "id": "CL-DEMO-ROL-V-080X35",
+        "dimensions": [
+          {
+            "key": "outside_diameter",
+            "label": "Outside diameter",
+            "value": "80",
+            "unit": "mm",
+            "letter": "A",
+            "display": "80 mm"
+          },
+          {
+            "key": "overall_width",
+            "label": "Overall width",
+            "value": "35",
+            "unit": "mm",
+            "letter": "B",
+            "display": "35 mm"
+          },
+          {
+            "key": "centre_bore",
+            "label": "Centre bore",
+            "value": "20",
+            "unit": "mm",
+            "letter": "C",
+            "display": "20 mm"
+          },
+          {
+            "key": "groove_angle",
+            "label": "Groove angle",
+            "value": "90",
+            "unit": "deg",
+            "letter": "D",
+            "display": "90°"
+          },
+          {
+            "key": "groove_depth",
+            "label": "Groove depth",
+            "value": "7",
+            "unit": "mm",
+            "letter": "E",
+            "display": "7 mm"
+          },
+          {
+            "key": "bearing_seat_diameter_side_1",
+            "label": "Bearing seat diameter - side 1",
+            "value": "42",
+            "unit": "mm",
+            "letter": "F",
+            "display": "42 mm"
+          },
+          {
+            "key": "bearing_seat_depth_side_1",
+            "label": "Bearing seat depth - side 1",
+            "value": "10",
+            "unit": "mm",
+            "letter": "G",
+            "display": "10 mm"
+          },
+          {
+            "key": "bearing_seat_diameter_side_2",
+            "label": "Bearing seat diameter - side 2",
+            "value": "42",
+            "unit": "mm",
+            "letter": "H",
+            "display": "42 mm"
+          },
+          {
+            "key": "bearing_seat_depth_side_2",
+            "label": "Bearing seat depth - side 2",
+            "value": "10",
+            "unit": "mm",
+            "letter": "I",
+            "display": "10 mm"
+          }
+        ]
+      }
+    },
+    {
+      "id": "radius_groove__none",
+      "type": "radius_groove",
+      "bearingSeat": "none",
+      "label": "Radius-groove roller — none",
+      "views": [
+        {
+          "name": "Front view",
+          "file": "svg/radius_groove__none__1.svg"
+        },
+        {
+          "name": "Axial section",
+          "file": "svg/radius_groove__none__2.svg"
+        },
+        {
+          "name": "Groove detail",
+          "file": "svg/radius_groove__none__3.svg"
+        }
+      ],
+      "sample": {
+        "type": "radius_groove",
+        "bearingSeat": "none",
+        "name": "Radius Guide Roller 75 x 30 mm | 4140 Steel",
+        "id": "CL-DEMO-ROL-R-075X30",
+        "dimensions": [
+          {
+            "key": "outside_diameter",
+            "label": "Outside diameter",
+            "value": "75",
+            "unit": "mm",
+            "letter": "A",
+            "display": "75 mm"
+          },
+          {
+            "key": "overall_width",
+            "label": "Overall width",
+            "value": "30",
+            "unit": "mm",
+            "letter": "B",
+            "display": "30 mm"
+          },
+          {
+            "key": "centre_bore",
+            "label": "Centre bore",
+            "value": "15",
+            "unit": "mm",
+            "letter": "C",
+            "display": "15 mm"
+          },
+          {
+            "key": "groove_radius",
+            "label": "Groove radius",
+            "value": "6",
+            "unit": "mm",
+            "letter": "D",
+            "display": "6 mm"
+          },
+          {
+            "key": "groove_depth",
+            "label": "Groove depth",
+            "value": "4",
+            "unit": "mm",
+            "letter": "E",
+            "display": "4 mm"
+          }
+        ]
+      }
+    },
+    {
+      "id": "radius_groove__one_side",
+      "type": "radius_groove",
+      "bearingSeat": "one_side",
+      "label": "Radius-groove roller — one side",
+      "views": [
+        {
+          "name": "Front view",
+          "file": "svg/radius_groove__one_side__1.svg"
+        },
+        {
+          "name": "Axial section",
+          "file": "svg/radius_groove__one_side__2.svg"
+        },
+        {
+          "name": "Groove detail",
+          "file": "svg/radius_groove__one_side__3.svg"
+        }
+      ],
+      "sample": {
+        "type": "radius_groove",
+        "bearingSeat": "one_side",
+        "name": "Radius-Groove Roller 100 x 50 mm | 4140 Steel",
+        "id": "CL-DEMO-ROL-R-100X50",
+        "dimensions": [
+          {
+            "key": "outside_diameter",
+            "label": "Outside diameter",
+            "value": "100",
+            "unit": "mm",
+            "letter": "A",
+            "display": "100 mm"
+          },
+          {
+            "key": "overall_width",
+            "label": "Overall width",
+            "value": "50",
+            "unit": "mm",
+            "letter": "B",
+            "display": "50 mm"
+          },
+          {
+            "key": "centre_bore",
+            "label": "Centre bore",
+            "value": "41",
+            "unit": "mm",
+            "letter": "C",
+            "display": "41 mm"
+          },
+          {
+            "key": "groove_radius",
+            "label": "Groove radius",
+            "value": "8",
+            "unit": "mm",
+            "letter": "D",
+            "display": "8 mm"
+          },
+          {
+            "key": "groove_depth",
+            "label": "Groove depth",
+            "value": "6",
+            "unit": "mm",
+            "letter": "E",
+            "display": "6 mm"
+          },
+          {
+            "key": "bearing_seat_diameter_side_1",
+            "label": "Bearing seat diameter - side 1",
+            "value": "47",
+            "unit": "mm",
+            "letter": "F",
+            "display": "47 mm"
+          },
+          {
+            "key": "bearing_seat_depth_side_1",
+            "label": "Bearing seat depth - side 1",
+            "value": "12",
+            "unit": "mm",
+            "letter": "G",
+            "display": "12 mm"
+          }
+        ]
+      }
+    },
+    {
+      "id": "radius_groove__both_sides",
+      "type": "radius_groove",
+      "bearingSeat": "both_sides",
+      "label": "Radius-groove roller — both sides",
+      "views": [
+        {
+          "name": "Front view",
+          "file": "svg/radius_groove__both_sides__1.svg"
+        },
+        {
+          "name": "Axial section",
+          "file": "svg/radius_groove__both_sides__2.svg"
+        },
+        {
+          "name": "Groove detail",
+          "file": "svg/radius_groove__both_sides__3.svg"
+        }
+      ],
+      "sample": {
+        "type": "radius_groove",
+        "bearingSeat": "both_sides",
+        "name": "Radius Guide Roller 75 x 30 mm | 4140 Steel",
+        "id": "CL-DEMO-ROL-R-075X30",
+        "dimensions": [
+          {
+            "key": "outside_diameter",
+            "label": "Outside diameter",
+            "value": "75",
+            "unit": "mm",
+            "letter": "A",
+            "display": "75 mm"
+          },
+          {
+            "key": "overall_width",
+            "label": "Overall width",
+            "value": "30",
+            "unit": "mm",
+            "letter": "B",
+            "display": "30 mm"
+          },
+          {
+            "key": "centre_bore",
+            "label": "Centre bore",
+            "value": "15",
+            "unit": "mm",
+            "letter": "C",
+            "display": "15 mm"
+          },
+          {
+            "key": "groove_radius",
+            "label": "Groove radius",
+            "value": "6",
+            "unit": "mm",
+            "letter": "D",
+            "display": "6 mm"
+          },
+          {
+            "key": "groove_depth",
+            "label": "Groove depth",
+            "value": "4",
+            "unit": "mm",
+            "letter": "E",
+            "display": "4 mm"
+          },
+          {
+            "key": "bearing_seat_diameter_side_1",
+            "label": "Bearing Seat Diameter Side 1",
+            "value": "—",
+            "unit": "mm",
+            "letter": "F",
+            "display": "—"
+          },
+          {
+            "key": "bearing_seat_depth_side_1",
+            "label": "Bearing Seat Depth Side 1",
+            "value": "—",
+            "unit": "mm",
+            "letter": "G",
+            "display": "—"
+          },
+          {
+            "key": "bearing_seat_diameter_side_2",
+            "label": "Bearing Seat Diameter Side 2",
+            "value": "—",
+            "unit": "mm",
+            "letter": "H",
+            "display": "—"
+          },
+          {
+            "key": "bearing_seat_depth_side_2",
+            "label": "Bearing Seat Depth Side 2",
+            "value": "—",
+            "unit": "mm",
+            "letter": "I",
+            "display": "—"
+          }
+        ]
+      }
+    },
+    {
+      "id": "flat_bottom_v_groove__none",
+      "type": "flat_bottom_v_groove",
+      "bearingSeat": "none",
+      "label": "Flat-bottom V roller — none",
+      "views": [
+        {
+          "name": "Front view",
+          "file": "svg/flat_bottom_v_groove__none__1.svg"
+        },
+        {
+          "name": "Axial section",
+          "file": "svg/flat_bottom_v_groove__none__2.svg"
+        },
+        {
+          "name": "Groove detail",
+          "file": "svg/flat_bottom_v_groove__none__3.svg"
+        }
+      ],
+      "sample": {
+        "type": "flat_bottom_v_groove",
+        "bearingSeat": "none",
+        "name": "Flat-Bottom V-Groove Roller 60 x 30 mm | 1045 Steel",
+        "id": "CL-DEMO-ROL-FBV-060X30",
+        "dimensions": [
+          {
+            "key": "outside_diameter",
+            "label": "Outside diameter",
+            "value": "60",
+            "unit": "mm",
+            "letter": "A",
+            "display": "60 mm"
+          },
+          {
+            "key": "overall_width",
+            "label": "Overall width",
+            "value": "30",
+            "unit": "mm",
+            "letter": "B",
+            "display": "30 mm"
+          },
+          {
+            "key": "centre_bore",
+            "label": "Centre bore",
+            "value": "15",
+            "unit": "mm",
+            "letter": "C",
+            "display": "15 mm"
+          },
+          {
+            "key": "groove_angle",
+            "label": "Groove angle",
+            "value": "90",
+            "unit": "deg",
+            "letter": "D",
+            "display": "90°"
+          },
+          {
+            "key": "groove_depth",
+            "label": "Groove depth",
+            "value": "5",
+            "unit": "mm",
+            "letter": "E",
+            "display": "5 mm"
+          },
+          {
+            "key": "bottom_flat_width",
+            "label": "Bottom flat width",
+            "value": "4",
+            "unit": "mm",
+            "letter": "F",
+            "display": "4 mm"
+          }
+        ]
+      }
+    },
+    {
+      "id": "flat_bottom_v_groove__one_side",
+      "type": "flat_bottom_v_groove",
+      "bearingSeat": "one_side",
+      "label": "Flat-bottom V roller — one side",
+      "views": [
+        {
+          "name": "Front view",
+          "file": "svg/flat_bottom_v_groove__one_side__1.svg"
+        },
+        {
+          "name": "Axial section",
+          "file": "svg/flat_bottom_v_groove__one_side__2.svg"
+        },
+        {
+          "name": "Groove detail",
+          "file": "svg/flat_bottom_v_groove__one_side__3.svg"
+        }
+      ],
+      "sample": {
+        "type": "flat_bottom_v_groove",
+        "bearingSeat": "one_side",
+        "name": "Flat-Bottom V-Groove Roller 60 x 30 mm | 1045 Steel",
+        "id": "CL-DEMO-ROL-FBV-060X30",
+        "dimensions": [
+          {
+            "key": "outside_diameter",
+            "label": "Outside diameter",
+            "value": "60",
+            "unit": "mm",
+            "letter": "A",
+            "display": "60 mm"
+          },
+          {
+            "key": "overall_width",
+            "label": "Overall width",
+            "value": "30",
+            "unit": "mm",
+            "letter": "B",
+            "display": "30 mm"
+          },
+          {
+            "key": "centre_bore",
+            "label": "Centre bore",
+            "value": "15",
+            "unit": "mm",
+            "letter": "C",
+            "display": "15 mm"
+          },
+          {
+            "key": "groove_angle",
+            "label": "Groove angle",
+            "value": "90",
+            "unit": "deg",
+            "letter": "D",
+            "display": "90°"
+          },
+          {
+            "key": "groove_depth",
+            "label": "Groove depth",
+            "value": "5",
+            "unit": "mm",
+            "letter": "E",
+            "display": "5 mm"
+          },
+          {
+            "key": "bottom_flat_width",
+            "label": "Bottom flat width",
+            "value": "4",
+            "unit": "mm",
+            "letter": "F",
+            "display": "4 mm"
+          },
+          {
+            "key": "bearing_seat_diameter_side_1",
+            "label": "Bearing Seat Diameter Side 1",
+            "value": "—",
+            "unit": "mm",
+            "letter": "G",
+            "display": "—"
+          },
+          {
+            "key": "bearing_seat_depth_side_1",
+            "label": "Bearing Seat Depth Side 1",
+            "value": "—",
+            "unit": "mm",
+            "letter": "H",
+            "display": "—"
+          }
+        ]
+      }
+    },
+    {
+      "id": "flat_bottom_v_groove__both_sides",
+      "type": "flat_bottom_v_groove",
+      "bearingSeat": "both_sides",
+      "label": "Flat-bottom V roller — both sides",
+      "views": [
+        {
+          "name": "Front view",
+          "file": "svg/flat_bottom_v_groove__both_sides__1.svg"
+        },
+        {
+          "name": "Axial section",
+          "file": "svg/flat_bottom_v_groove__both_sides__2.svg"
+        },
+        {
+          "name": "Groove detail",
+          "file": "svg/flat_bottom_v_groove__both_sides__3.svg"
+        }
+      ],
+      "sample": {
+        "type": "flat_bottom_v_groove",
+        "bearingSeat": "both_sides",
+        "name": "Flat-Bottom V-Groove Roller 60 x 30 mm | 1045 Steel",
+        "id": "CL-DEMO-ROL-FBV-060X30",
+        "dimensions": [
+          {
+            "key": "outside_diameter",
+            "label": "Outside diameter",
+            "value": "60",
+            "unit": "mm",
+            "letter": "A",
+            "display": "60 mm"
+          },
+          {
+            "key": "overall_width",
+            "label": "Overall width",
+            "value": "30",
+            "unit": "mm",
+            "letter": "B",
+            "display": "30 mm"
+          },
+          {
+            "key": "centre_bore",
+            "label": "Centre bore",
+            "value": "15",
+            "unit": "mm",
+            "letter": "C",
+            "display": "15 mm"
+          },
+          {
+            "key": "groove_angle",
+            "label": "Groove angle",
+            "value": "90",
+            "unit": "deg",
+            "letter": "D",
+            "display": "90°"
+          },
+          {
+            "key": "groove_depth",
+            "label": "Groove depth",
+            "value": "5",
+            "unit": "mm",
+            "letter": "E",
+            "display": "5 mm"
+          },
+          {
+            "key": "bottom_flat_width",
+            "label": "Bottom flat width",
+            "value": "4",
+            "unit": "mm",
+            "letter": "F",
+            "display": "4 mm"
+          },
+          {
+            "key": "bearing_seat_diameter_side_1",
+            "label": "Bearing Seat Diameter Side 1",
+            "value": "—",
+            "unit": "mm",
+            "letter": "G",
+            "display": "—"
+          },
+          {
+            "key": "bearing_seat_depth_side_1",
+            "label": "Bearing Seat Depth Side 1",
+            "value": "—",
+            "unit": "mm",
+            "letter": "H",
+            "display": "—"
+          },
+          {
+            "key": "bearing_seat_diameter_side_2",
+            "label": "Bearing Seat Diameter Side 2",
+            "value": "—",
+            "unit": "mm",
+            "letter": "I",
+            "display": "—"
+          },
+          {
+            "key": "bearing_seat_depth_side_2",
+            "label": "Bearing Seat Depth Side 2",
+            "value": "—",
+            "unit": "mm",
+            "letter": "J",
+            "display": "—"
+          }
+        ]
+      }
+    },
+    {
+      "id": "deep_groove_ball_bearing",
+      "type": "deep_groove_ball_bearing",
+      "bearingSeat": "none",
+      "label": "Deep-groove bearing",
+      "views": [
+        {
+          "name": "Front view",
+          "file": "svg/deep_groove_ball_bearing__1.svg"
+        },
+        {
+          "name": "Side section",
+          "file": "svg/deep_groove_ball_bearing__2.svg"
+        }
+      ],
+      "sample": {
+        "type": "deep_groove_ball_bearing",
+        "bearingSeat": "none",
+        "name": "Deep-Groove Ball Bearing 6005-2RS | 25 x 47 x 12 mm",
+        "id": "CL-DEMO-BRG-6005-2RS",
+        "dimensions": [
+          {
+            "key": "bore_diameter",
+            "label": "Bore diameter",
+            "value": "25",
+            "unit": "mm",
+            "letter": "A",
+            "display": "25 mm"
+          },
+          {
+            "key": "outside_diameter",
+            "label": "Outside diameter",
+            "value": "47",
+            "unit": "mm",
+            "letter": "B",
+            "display": "47 mm"
+          },
+          {
+            "key": "width",
+            "label": "Width",
+            "value": "12",
+            "unit": "mm",
+            "letter": "C",
+            "display": "12 mm"
+          }
+        ]
+      }
+    },
+    {
+      "id": "carbide_drill",
+      "type": "carbide_drill",
+      "bearingSeat": "none",
+      "label": "Carbide drill",
+      "views": [
+        {
+          "name": "Side view",
+          "file": "svg/carbide_drill__1.svg"
+        },
+        {
+          "name": "Point detail",
+          "file": "svg/carbide_drill__2.svg"
+        }
+      ],
+      "sample": {
+        "type": "carbide_drill",
+        "bearingSeat": "none",
+        "name": "Carbide Drill 8.5 mm | 140 Degree Point Example",
+        "id": "CL-DEMO-TOOL-DR-085-CARB",
+        "dimensions": [
+          {
+            "key": "drill_diameter",
+            "label": "Drill diameter",
+            "value": "8.5",
+            "unit": "mm",
+            "letter": "A",
+            "display": "8.5 mm"
+          },
+          {
+            "key": "point_angle",
+            "label": "Point angle",
+            "value": "140",
+            "unit": "deg",
+            "letter": "B",
+            "display": "140°"
+          },
+          {
+            "key": "shank_diameter",
+            "label": "Shank diameter",
+            "value": "8.5",
+            "unit": "mm",
+            "letter": "C",
+            "display": "8.5 mm"
+          },
+          {
+            "key": "overall_length",
+            "label": "Overall length",
+            "value": "80",
+            "unit": "mm",
+            "letter": "D",
+            "display": "80 mm"
+          }
+        ]
+      }
+    },
+    {
+      "id": "solid_carbide_end_mill__equal",
+      "type": "solid_carbide_end_mill",
+      "bearingSeat": "none",
+      "label": "Solid carbide end mill — Equal diameters",
+      "views": [
+        {
+          "name": "Side view",
+          "file": "svg/solid_carbide_end_mill__equal__1.svg"
+        },
+        {
+          "name": "End view",
+          "file": "svg/solid_carbide_end_mill__2.svg"
+        }
+      ],
+      "sample": {
+        "type": "solid_carbide_end_mill",
+        "bearingSeat": "none",
+        "name": "End mill pattern preview | Ø10 cutting / Ø10 shank",
+        "id": "PATTERN-ENDMILL-EQUAL",
+        "dimensions": [
+          {
+            "key": "cutting_diameter",
+            "label": "Cutting diameter",
+            "value": "10",
+            "unit": "mm",
+            "letter": "A",
+            "display": "10 mm"
+          },
+          {
+            "key": "flute_count",
+            "label": "Flute count",
+            "value": "4",
+            "unit": "",
+            "letter": "B",
+            "display": "4"
+          },
+          {
+            "key": "shank_diameter",
+            "label": "Shank diameter",
+            "value": "10",
+            "unit": "mm",
+            "letter": "C",
+            "display": "10 mm"
+          },
+          {
+            "key": "overall_length",
+            "label": "Overall length",
+            "value": "75",
+            "unit": "mm",
+            "letter": "D",
+            "display": "75 mm"
+          }
+        ]
+      },
+      "shankDiameterRelation": "equal"
+    },
+    {
+      "id": "solid_carbide_end_mill__shank_larger",
+      "type": "solid_carbide_end_mill",
+      "bearingSeat": "none",
+      "label": "Solid carbide end mill — Shank larger than cutting diameter",
+      "views": [
+        {
+          "name": "Side view",
+          "file": "svg/solid_carbide_end_mill__shank_larger__1.svg"
+        },
+        {
+          "name": "End view",
+          "file": "svg/solid_carbide_end_mill__2.svg"
+        }
+      ],
+      "sample": {
+        "type": "solid_carbide_end_mill",
+        "bearingSeat": "none",
+        "name": "End mill pattern preview | Ø10 cutting / Ø12 shank",
+        "id": "PATTERN-ENDMILL-SHANK_LARGER",
+        "dimensions": [
+          {
+            "key": "cutting_diameter",
+            "label": "Cutting diameter",
+            "value": "10",
+            "unit": "mm",
+            "letter": "A",
+            "display": "10 mm"
+          },
+          {
+            "key": "flute_count",
+            "label": "Flute count",
+            "value": "4",
+            "unit": "",
+            "letter": "B",
+            "display": "4"
+          },
+          {
+            "key": "shank_diameter",
+            "label": "Shank diameter",
+            "value": "12",
+            "unit": "mm",
+            "letter": "C",
+            "display": "12 mm"
+          },
+          {
+            "key": "overall_length",
+            "label": "Overall length",
+            "value": "75",
+            "unit": "mm",
+            "letter": "D",
+            "display": "75 mm"
+          }
+        ]
+      },
+      "shankDiameterRelation": "shank_larger"
+    },
+    {
+      "id": "solid_carbide_end_mill__shank_smaller",
+      "type": "solid_carbide_end_mill",
+      "bearingSeat": "none",
+      "label": "Solid carbide end mill — Shank smaller than cutting diameter",
+      "views": [
+        {
+          "name": "Side view",
+          "file": "svg/solid_carbide_end_mill__shank_smaller__1.svg"
+        },
+        {
+          "name": "End view",
+          "file": "svg/solid_carbide_end_mill__2.svg"
+        }
+      ],
+      "sample": {
+        "type": "solid_carbide_end_mill",
+        "bearingSeat": "none",
+        "name": "End mill pattern preview | Ø10 cutting / Ø8 shank",
+        "id": "PATTERN-ENDMILL-SHANK_SMALLER",
+        "dimensions": [
+          {
+            "key": "cutting_diameter",
+            "label": "Cutting diameter",
+            "value": "10",
+            "unit": "mm",
+            "letter": "A",
+            "display": "10 mm"
+          },
+          {
+            "key": "flute_count",
+            "label": "Flute count",
+            "value": "4",
+            "unit": "",
+            "letter": "B",
+            "display": "4"
+          },
+          {
+            "key": "shank_diameter",
+            "label": "Shank diameter",
+            "value": "8",
+            "unit": "mm",
+            "letter": "C",
+            "display": "8 mm"
+          },
+          {
+            "key": "overall_length",
+            "label": "Overall length",
+            "value": "75",
+            "unit": "mm",
+            "letter": "D",
+            "display": "75 mm"
+          }
+        ]
+      },
+      "shankDiameterRelation": "shank_smaller"
+    }
+  ]
+}
