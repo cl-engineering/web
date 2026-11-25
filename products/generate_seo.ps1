@@ -247,6 +247,52 @@ function RenderPage($category,$product,$manifest,[string]$template,[bool]$previe
     }
     return $output
 }
+function RenderCustomPage($category, [string]$template, [bool]$preview) {
+    $name=[string]$category
+    $slug=Slug $name
+    $display=switch ($slug) {
+        'rollers' {'Custom Roller'}
+        'bearings' {'Custom Bearing'}
+        'bolts-studs' {'Custom Bolt / Stud'}
+        'bushes' {'Custom Bush'}
+        'nuts' {'Custom Nut'}
+        'washers' {'Custom Washer'}
+        'workshop-tools' {'Custom Workshop Tool'}
+        default {'Custom ' + $name}
+    }
+    $url="$Base/products/custom/$slug/"
+    $title="$display | Custom Engineering Parts | Circle Line Engineering"
+    $desc="Request a quote for $($name.ToLowerInvariant()) made to your requirements in Auckland, New Zealand. Select a part type, view technical sketches, enter dimensions and material."
+    $robots=if ($preview) {'noindex,follow'} else {'index,follow'}
+    $graph=@{'@context'='https://schema.org';'@graph'=@(
+      @{'@type'='WebPage';'@id'=$url+'#webpage';url=$url;name=$title;description=$desc;inLanguage='en-NZ';isPartOf=@{'@id'=$Base+'/#website'};publisher=@{'@id'=$Base+'/#business'}},
+      @{'@type'='BreadcrumbList';itemListElement=@(
+          @{'@type'='ListItem';position=1;name='Home';item=$Base+'/'},
+          @{'@type'='ListItem';position=2;name='Product catalogue';item=$Base+'/products/'},
+          @{'@type'='ListItem';position=3;name=$display;item=$url})})}
+    $txt=$template
+    # A relative base preserves all catalogue CSS/JS/image URLs while the page is under custom/<category>/.
+    $txt=$txt.Replace('<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">', '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">' + "`n" + '<base href="../../">')
+    $txt=[regex]::Replace($txt,'<title>[\s\S]*?</title>','<title>'+(Html $title)+'</title>', [System.Text.RegularExpressions.RegexOptions]::IgnoreCase)
+    $txt=[regex]::Replace($txt,'<meta name="description" content="[^"]*">','<meta name="description" content="'+(Html $desc)+'">')
+    $txt=[regex]::Replace($txt,'<meta name="robots" content="[^"]*">','<meta name="robots" content="'+$robots+'">')
+    $txt=[regex]::Replace($txt,'<link rel="canonical" href="[^"]*">','<link rel="canonical" href="'+$url+'">')
+    $txt=[regex]::Replace($txt,'<meta property="og:url" content="[^"]*">','<meta property="og:url" content="'+$url+'">')
+    $txt=[regex]::Replace($txt,'<meta property="og:title" content="[^"]*">','<meta property="og:title" content="'+(Html $title)+'">')
+    $txt=[regex]::Replace($txt,'<meta property="og:description" content="[^"]*">','<meta property="og:description" content="'+(Html $desc)+'">')
+    $txt=[regex]::Replace($txt,'<meta name="twitter:title" content="[^"]*">','<meta name="twitter:title" content="'+(Html $title)+'">')
+    $txt=[regex]::Replace($txt,'<meta name="twitter:description" content="[^"]*">','<meta name="twitter:description" content="'+(Html $desc)+'">')
+    $schema='<script type="application/ld+json" id="catalogue-schema">'+(Json $graph)+'</script>'
+    $txt=[regex]::Replace($txt,'<script type="application/ld\+json" id="catalogue-schema">[\s\S]*?</script>', [System.Text.RegularExpressions.MatchEvaluator]{param($m) $schema})
+    # Set the initial view without a URL fragment. The regular catalogue JS renders the interactive form.
+    $init='<script>window.CircleLineInitialCustomCategory='+ (Json $slug) +';</script>'
+    $txt=$txt.Replace('<script src="catalog.js" defer></script>', $init + "`n" + '<script src="catalog.js" defer></script>')
+    # Pre-render category heading for crawlers and JavaScript-disabled visitors.
+    $static='<section id="customView" class="product-detail" aria-label="Custom part details"><div class="container"><h1 class="detail-title">'+(Html $display)+'</h1><p class="detail-lead">'+(Html $desc)+'</p><p>Enable JavaScript to select the part type, inspect the drawings and enter your measurements.</p></div></section>'
+    $txt=$txt.Replace('<section id="customView" class="product-detail" hidden aria-label="Custom part details"></section>', $static)
+    return $txt
+}
+
 function UpdateCatalogue($items, [bool]$preview) {
     $file=Join-Path $Root 'index.html'
     $txt=[System.IO.File]::ReadAllText($file,[System.Text.Encoding]::UTF8)
@@ -277,7 +323,7 @@ function UpdateTechnicalNoindex() {
     if ($txt -notmatch '<meta name="googlebot"') { $txt=$txt.Replace('<meta name="robots" content="noindex,nofollow,noarchive">','<meta name="robots" content="noindex,nofollow,noarchive">' + "`n" + '<meta name="googlebot" content="noindex,nofollow">') }
     Write-Utf8 $file $txt
 }
-function BuildSitemap($items,$baseSitemap,$dest,[bool]$preview) {
+function BuildSitemap($items,$categories,$baseSitemap,$dest,[bool]$preview) {
     $doc=New-Object System.Xml.XmlDocument
     $doc.XmlResolver=$null
     $doc.Load($baseSitemap)
@@ -298,6 +344,7 @@ function BuildSitemap($items,$baseSitemap,$dest,[bool]$preview) {
     if (-not $preview) {
         $list+=($Base+'/products/')
         foreach($item in $items) { $list+= "$Base/products/part/$(Slug $item.product.code)/" }
+        foreach($cat in $categories) { $list+= "$Base/products/custom/$(Slug $cat)/" }
     }
     foreach($loc in $list) {
         if (-not $seen.Add($loc)) {continue}
@@ -318,15 +365,36 @@ function BuildSitemap($items,$baseSitemap,$dest,[bool]$preview) {
 try {
     $catalog=Read-Json (Join-Path $Root 'catalog.json')
     $manifest=Read-Json (Join-Path $Root 'technical-patterns/patterns.json')
+    $settingsFile=Join-Path $Root 'category-settings.json'
+    $categorySettings=if(Test-Path $settingsFile -PathType Leaf){(Read-Json $settingsFile).categories}else{$null}
     $items=@()
+    $enabledCategories=New-Object System.Collections.Generic.List[string]
+    $allCategoryNames=@($catalog.categories | ForEach-Object { [string]$_.name })
+    if ($null -ne $categorySettings) { $allCategoryNames+=@($categorySettings.PSObject.Properties | ForEach-Object { [string]$_.Name }) }
+    foreach ($name in $allCategoryNames | Select-Object -Unique) {
+        $disabled=$false
+        if ($null -ne $categorySettings) {
+            $setting=$categorySettings.PSObject.Properties | Where-Object { $_.Name -eq $name } | Select-Object -First 1
+            if ($null -ne $setting -and $null -ne $setting.Value -and $setting.Value.enabled -eq $false) {$disabled=$true}
+        }
+        if (-not $disabled -and (Slug $name)) {[void]$enabledCategories.Add($name)}
+    }
     foreach ($category in $catalog.categories) {
+        if($null -ne $categorySettings){
+            $setting=$categorySettings.PSObject.Properties | Where-Object { $_.Name -eq [string]$category.name } | Select-Object -First 1
+            if($null -ne $setting -and $null -ne $setting.Value -and $setting.Value.enabled -eq $false){
+                Write-Host ('Skipping disabled category: ' + [string]$category.name) -ForegroundColor Yellow
+                continue
+            }
+        }
         foreach ($p in $category.products) {
             if ((Text $p.code).Trim() -and (Text $p.name).Trim()) {
                 $items+=,[pscustomobject]@{category=[string]$category.name;product=$p}
             }
         }
     }
-    if (-not $items.Count) {throw 'No valid products found in catalog.json. Nothing changed.'}
+    # Zero published items is valid when all categories are disabled or contain no listings.
+    # Custom category requests remain available through category-settings.json.
     $codes=[System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::OrdinalIgnoreCase)
     $slugs=[System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::OrdinalIgnoreCase)
     foreach($item in $items) {
@@ -381,22 +449,36 @@ try {
         $path=Join-Path (Join-Path $stage (Slug $item.product.code)) 'index.html'
         Write-Utf8 $path $page
     }
+    $customStage=Join-Path $Root '_custom_build_temp'
+    if (Test-Path $customStage) {throw 'Temporary folder _custom_build_temp already exists. Inspect or remove it manually before retrying.'}
+    [void](New-Item -ItemType Directory -Path $customStage)
+    $catalogueSource=[System.IO.File]::ReadAllText((Join-Path $Root 'index.html'),[System.Text.Encoding]::UTF8)
+    foreach($categoryName in $enabledCategories) {
+        $customPage=RenderCustomPage $categoryName $catalogueSource $preview
+        Write-Utf8 (Join-Path (Join-Path $customStage (Slug $categoryName)) 'index.html') $customPage
+    }
     # First validate new sitemap before replacing generated pages.
     $tempSitemap=Join-Path $PackageRoot '__sitemap_generated_temp.xml'
     if (Test-Path $tempSitemap) {throw 'Temporary sitemap exists. Remove __sitemap_generated_temp.xml after checking it.'}
-    BuildSitemap $items $sourceSitemap $tempSitemap $preview
+    BuildSitemap $items $enabledCategories $sourceSitemap $tempSitemap $preview
     $old=Join-Path $Root 'part'
     $backup=Join-Path $Root '_part_previous_temp'
     if (Test-Path $backup) {throw 'Temporary backup folder _part_previous_temp already exists. Please inspect it manually.'}
     if (Test-Path $old) {Move-Item $old $backup}
     Move-Item $stage $old
+    $oldCustom=Join-Path $Root 'custom'
+    $customBackup=Join-Path $Root '_custom_previous_temp'
+    if (Test-Path $customBackup) {throw 'Temporary backup folder _custom_previous_temp already exists. Inspect it manually.'}
+    if (Test-Path $oldCustom) {Move-Item $oldCustom $customBackup}
+    Move-Item $customStage $oldCustom
     UpdateCatalogue $items $preview
     UpdateTechnicalNoindex
     Move-Item -Path $tempSitemap -Destination (Join-Path $PackageRoot 'sitemap.xml') -Force
     if (Test-Path $backup) {Remove-Item $backup -Recurse -Force}
+    if (Test-Path $customBackup) {Remove-Item $customBackup -Recurse -Force}
     $mode=if ($preview) {'PREVIEW (noindex)'}elseif ($demoCodes.Count -gt 0) {'PUBLICATION WITH DEMO PRODUCTS (index,follow)'}else{'PUBLICATION (index,follow)'}
     Write-Host ''
-    Write-Host "SUCCESS: $($items.Count) product pages generated in $mode mode." -ForegroundColor Green
+    Write-Host "SUCCESS: $($items.Count) product pages and $($enabledCategories.Count) custom category pages generated in $mode mode." -ForegroundColor Green
     Write-Host "Updated sitemap: $(Join-Path $PackageRoot 'sitemap.xml')"
     Write-Host 'All files were updated locally. Upload/deploy is a separate step.'
 } catch {

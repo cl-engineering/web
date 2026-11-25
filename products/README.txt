@@ -95,3 +95,44 @@ Both Update_Catalogue.cmd and Publish_Catalogue.cmd use generate_seo.ps1.
 The generated product pages automatically include GA4 measurement ID G-D6FDD8TEE1 exactly once.
 Existing product pages in this package also contain the same GA4 tag.
 To change the GA4 ID later, update seo-product-template.tpl and generate_seo.ps1.
+
+
+CATEGORY OPTIONS AND CUSTOM ENQUIRIES
+-----------------------------------
+The catalogue shows, for each enabled category:
+  1. Custom [category] - opens an interactive, drawing-based custom enquiry.
+  2. [category] catalogue list - a collapsible list of exported products.
+     If there are no products, only the Custom option is displayed.
+
+To hide a whole category, edit products/category-settings.json and change
+  "enabled": true
+to
+  "enabled": false
+for that category. Do not remove the catalogue products to hide a category.
+
+Then run Update_Catalogue.cmd (preview/noindex) or Publish_Catalogue.cmd
+(publication/index,follow) from the complete website folder. The generator
+regenerates only enabled-category product pages and updates the root sitemap.
+Previously published pages for disabled categories must be removed from the
+server during deployment; merely editing JSON does not delete remote files.
+
+The custom part form is separate from the saved-product enquiry cart. It
+can send its own email with chosen type, dimensions, material, quantity
+and details. The type and dimension options follow the SVG pattern manifest.
+Custom requests are not assigned fictional product codes or auto-added to the cart.
+
+The custom form uses the catalogue URL with #custom/[category], and is not
+intended as an independently indexable SEO page.
+
+CUSTOM CATEGORY SEO PAGES
+- Update_Catalogue.cmd and Publish_Catalogue.cmd both rebuild products/custom/
+  from the enabled categories in category-settings.json and catalog.json.
+- Each custom category URL has its own title, description, canonical, Open Graph
+  tags and WebPage/Breadcrumb JSON-LD, while reusing the existing interactive
+  custom quote form, SVG patterns, material and dimensions fields.
+- Example: /products/custom/rollers/. An empty enabled category still has a page.
+- A disabled category has no generated custom page and is excluded from sitemap.
+- Update mode: noindex; no products/custom URLs in root sitemap.
+- Publish mode: index,follow; enabled custom URLs included in root sitemap.
+- Deploy generated deletions as well as additions: uploading files without
+  deleting retired remote custom category folders leaves stale URLs accessible.

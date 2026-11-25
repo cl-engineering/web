@@ -43,6 +43,31 @@
    button.setAttribute('aria-pressed','true');
    if(feedback)feedback.textContent=label+' — highlighted in '+(views[target].getAttribute('data-view-name')||'the drawing')+'.';
   }));
+  // Custom RFQ: focusing or tapping the value field selects its matching
+  // dimension, switches to the appropriate SVG view and highlights the callout.
+  const customList=browser.querySelector('#customDimensions');
+  if(customList){
+   let lastActiveKey='';
+   customList.querySelectorAll('input[data-key]').forEach(input=>{
+    const activate=()=>{
+     const key=input.getAttribute('data-key');
+     const button=[...measures].find(b=>b.getAttribute('data-dimension-key')===key);
+     if(!button)return;
+     if(lastActiveKey!==key||button.getAttribute('aria-pressed')!=='true')button.click();
+     lastActiveKey=key;
+    };
+    input.addEventListener('focus',activate);
+    input.addEventListener('click',()=>{
+     activate();
+     // On a narrow viewport the drawing is stacked above the inputs.
+     // Bring the highlighted callout into view when the user taps a field.
+     if(window.matchMedia('(max-width: 820px)').matches){
+      const drawing=browser.querySelector('.tech-drawing-panel');
+      if(drawing)requestAnimationFrame(()=>drawing.scrollIntoView({behavior:'smooth',block:'start'}));
+     }
+    });
+   });
+  }
   const preferred=browser.getAttribute('data-primary-view')||'';
   let initial=0;
   if(preferred==='axial'){

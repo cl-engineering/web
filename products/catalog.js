@@ -11,7 +11,11 @@ const personalNotes=new Map();
 try {const saved=JSON.parse(sessionStorage.getItem('circleLineEnquiryNotesV1')||'{}');for(const [k,v] of Object.entries(saved))if(typeof v==='string')personalNotes.set(k,v.slice(0,2000));}catch(e){}
 // Keep a multi-product enquiry when navigating to a crawlable product detail page.
 try { const saved=JSON.parse(sessionStorage.getItem('circleLineEnquiryV1')||'{}'); for (const [key,qty] of Object.entries(saved)){ if(Number.isSafeInteger(qty)&&qty>=1&&qty<=1000000)selected.set(key,qty); } } catch(e) { /* Storage unavailable, enquiry stays in memory. */ }
-let activeCategory='all', query='', visible=18, openProduct=null;
+let activeCategory='all', query='', visible=18, openProduct=null, categorySettings={}, customCategory=null, currentCustomType=null;
+const categoryOrder=['Bearings','Bolts & Studs','Bushes','Nuts','Rollers','Washers','Workshop Tools'];
+const categoryName=cat=>labels.get(cat)||cat;
+function isCategoryEnabled(name){const settings=categorySettings[name];return settings===undefined||settings===true||settings?.enabled!==false;}
+function allowedCategory(cat){return labels.has(cat)&&isCategoryEnabled(labels.get(cat));}
 const SPEC_BLOCK=/\[\[StockAppTechnicalSpecifications:v1\]\]([\s\S]*?)\[\[\/StockAppTechnicalSpecifications\]\]/gi;
 const SPEC_ANY=/\[\[StockAppTechnicalSpecifications(?::[^\]]*)?\]\][\s\S]*?\[\[\/StockAppTechnicalSpecifications\]\]/gi;
 function normalizeNotes(notes){
@@ -121,6 +125,7 @@ function loadExport(data){
  for(const category of data.categories){
   if(!category||!Array.isArray(category.products))continue;
   const name=String(category.name||'Other').trim(), cat=slug(name);
+  if(!isCategoryEnabled(name))continue;
   labels.set(cat,name);
   for(const item of category.products){
    if(!item||!item.code||!item.name)continue;
@@ -134,6 +139,8 @@ function loadExport(data){
    products.push({key:cat+':'+code,category:cat,id:code,name:String(item.name).trim(),unit:String(item.unit||'pcs'),type:technical.type||'',bearingSeat:technical.bearingSeat||'',description:legacy.description,dimensions,properties:technical.properties,notes:technical.notes,technical,photo:imageFromExport(item.image),barcodes:Array.isArray(item.additionalBarcodes)?item.additionalBarcodes.filter(x=>typeof x==='string'):[]});
   }
  }
+ // A custom enquiry category must remain available even when it has zero listed products.
+ for(const name of [...categoryOrder,...Object.keys(categorySettings)])if(isCategoryEnabled(name)&&!labels.has(slug(name)))labels.set(slug(name),name);
  // Remove enquiry items that no longer exist after a new StockApp export.
  for (const key of [...selected.keys()]) if(!products.some(p=>p.key===key)) selected.delete(key);
  // Rebuild chips on every reload to reflect StockApp categories without hard-coded groups.
@@ -151,6 +158,7 @@ async function load(){
    if(!r.ok)throw Error('Could not load catalog.json (HTTP '+r.status+').');
    data=await r.json();
   }
+  try {if(location.protocol!=='file:'){const r=await fetch('category-settings.json',{cache:'no-store'});if(r.ok){const settings=await r.json();categorySettings=settings.categories||{};}}}catch(err){console.warn('Category settings unavailable; showing exported categories.',err)}
   loadExport(data);
   render();syncDetailRoute();
  }catch(err){
@@ -165,22 +173,31 @@ function summary(p){
  return (lead||material?.value||p.dimensions.slice(0,2).map(d=>d.letter+' '+d.display).join(' · ')).slice(0,190);
 }
 function searchText(p){return [p.id,p.name,p.description,...p.barcodes,...p.dimensions.flatMap(d=>[d.key,d.label,d.value,d.display]),...p.properties.flatMap(pr=>[pr.name,pr.value])].join(' ').toLowerCase()}
-function render(){
- const matching=products.filter(p=>(activeCategory==='all'||p.category===activeCategory)&&(!query||searchText(p).includes(query)));
- $('#resultsInfo').textContent=matching.length+' '+(matching.length===1?'product':'products')+(activeCategory==='all'?'':' · '+labels.get(activeCategory));
- $('#categories').querySelectorAll('.category').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cat===activeCategory)));
- if(!products.length)$('#results').innerHTML='<div class="empty">No products are currently listed in this catalogue.</div>';
- else if(!matching.length)$('#results').innerHTML='<div class="empty">No matching parts. Try another search, or enquire about a custom machined part.</div>';
- else $('#results').innerHTML=matching.slice(0,visible).map(p=>{
-  const isSelected=selected.has(p.key),qty=selected.get(p.key)||1;
-  const img=p.photo?'<img src="'+escapeHTML(p.photo)+'" alt="" loading="lazy" class="stock-image">':'';
+function productCard(p){
+ const isSelected=selected.has(p.key),qty=selected.get(p.key)||1;
+ const img=p.photo?'<img src="'+escapeHTML(p.photo)+'" alt="" loading="lazy" class="stock-image">':'';
   return '<article class="product'+(isSelected?' selected':'')+'" data-key="'+escapeHTML(p.key)+'">'+
    '<a class="product-card-link" href="part/'+slug(p.id)+'/" aria-label="View details and dimensions for '+escapeHTML(p.name)+'"></a>'+
    '<div class="product-thumb" aria-hidden="true">'+escapeHTML(p.name[0]||'P')+img+'</div>'+
    '<div class="product-details"><div class="product-code">'+escapeHTML(p.id)+' · '+escapeHTML(labels.get(p.category))+'</div><h3 class="product-name">'+escapeHTML(p.name)+'</h3><p class="product-sub" title="'+escapeHTML(summary(p))+'">'+escapeHTML(summary(p))+'</p></div>'+
    '<div class="product-actions"><label class="qty-wrap">Quantity<input class="qty" type="number" min="1" max="1000000" step="1" inputmode="numeric" value="'+qty+'" aria-label="Quantity for '+escapeHTML(p.id)+'"></label><button type="button" class="add-btn" aria-pressed="'+isSelected+'">'+(isSelected?'Update quantity':'Add to enquiry')+'</button>'+(isSelected?'<button class="remove-btn" type="button">Remove</button>':'')+'</div></article>';
- }).join('');
- $('#more').innerHTML=matching.length>visible?'<button type="button" class="more-btn">Show more ('+(matching.length-visible)+')</button>':'';
+}
+function categoryTile(cat){
+ const name=categoryName(cat),items=products.filter(p=>p.category===cat&&(!query||searchText(p).includes(query)));
+ const custom='<a class="catalogue-choice custom-choice" href="custom/'+encodeURIComponent(cat)+'/"><strong>Custom '+escapeHTML(name==='Rollers'?'Roller':name==='Bushes'?'Bush':name==='Nuts'?'Nut':name==='Washers'?'Washer':name==='Bearings'?'Bearing':name==='Bolts & Studs'?'Bolt / Stud':name==='Workshop Tools'?'Workshop Tool':name)+'</strong><span>Choose a type, enter your measurements and send a drawing-based quote request</span></a>';
+ const listings=items.length?'<details class="catalogue-list"><summary><strong>'+escapeHTML(name)+' catalogue list</strong><span>'+items.length+' listed '+(items.length===1?'product':'products')+'</span></summary><div class="catalogue-list-items">'+items.map(productCard).join('')+'</div></details>':'';
+ return '<section class="category-choice-group" aria-label="'+escapeHTML(name)+' options"><h3>'+escapeHTML(name)+'</h3><div class="category-choice-options">'+custom+listings+'</div></section>';
+}
+function render(){
+ const expandedGroups=[...document.querySelectorAll('#results .catalogue-list[open]')].map(d=>d.dataset.group);
+ const matching=products.filter(p=>(activeCategory==='all'||p.category===activeCategory)&&(!query||searchText(p).includes(query)));
+ const cats=activeCategory==='all'?[...labels.keys()]:[activeCategory];
+ $('#resultsInfo').textContent=query?(matching.length+' matching '+(matching.length===1?'product':'products')):(activeCategory==='all'?'Browse by category':categoryName(activeCategory));
+ $('#categories').querySelectorAll('.category').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cat===activeCategory)));
+ // A search opens only the matching product lists. With no search the lists start folded.
+ $('#results').innerHTML=cats.filter(allowedCategory).map(categoryTile).join('')||'<div class="empty">No categories available at present.</div>';
+ $('#results').querySelectorAll('.catalogue-list').forEach(d=>{if(query||expandedGroups.includes(d.dataset.group))d.open=true;});
+ $('#more').innerHTML='';
  document.querySelectorAll('.stock-image').forEach(img=>img.addEventListener('error',()=>img.remove(),{once:true}));
  updateQuoteBar();
 }
@@ -201,9 +218,9 @@ $('#closeEnquiry').addEventListener('click',()=>$('#enquiryDrawer').hidden=true)
 $('#enquiryItems').addEventListener('click',e=>{const b=e.target.closest('.review-remove');if(!b)return;const key=b.closest('.enquiry-row').dataset.key;selected.delete(key);personalNotes.delete(key);saveNotes();quoteReview();render();if(!selected.size)$('#enquiryDrawer').hidden=true;});
 $('#enquiryItems').addEventListener('change',e=>{const input=e.target.closest('input[type=number]');if(!input)return;const n=validQty(input.value);if(!n){input.reportValidity();quoteReview();return;}selected.set(input.closest('.enquiry-row').dataset.key,n);render();});
 function categoryCustomMail(category){const label=labels.get(category)||'Engineering parts';sendMail({subject:'Custom RFQ: '+label,body:'Hello Circle Line,\n\nI would like a quote for a custom part in the '+label+' category.\n\nPart description / drawing reference: \nMaterial: \nDimensions: \nQuantity: \nAdditional requirements: \n\nPlease advise availability and lead time.\n\nThank you.'});}
-$('#customCategory').addEventListener('click',()=>categoryCustomMail(activeCategory));
+// Category-specific custom requests now use the interactive custom detail page.
 $('#results').addEventListener('input',e=>{if(!e.target.matches('.qty'))return;const input=e.target;input.setCustomValidity('');const key=input.closest('.product').dataset.key;if(selected.has(key)){const n=validQty(input.value);if(n){selected.set(key,n);updateQuoteBar()}}});
-$('#categories').addEventListener('click',e=>{const button=e.target.closest('[data-cat]');if(!button)return;activeCategory=button.dataset.cat;visible=18;$('#categoryCustom').hidden=activeCategory==='all';render()});
+$('#categories').addEventListener('click',e=>{const button=e.target.closest('[data-cat]');if(!button)return;activeCategory=button.dataset.cat;visible=18;render()});
 $('#search').addEventListener('input',e=>{query=e.target.value.trim().toLowerCase();visible=18;render()});
 $('#more').addEventListener('click',()=>{visible+=18;render()});
 function quoteMail(p,qty){
@@ -307,11 +324,82 @@ function showDetail(p){
  $('#detailQty').addEventListener('input',()=>$('#detailQty').setCustomValidity(''));
  $('#detailMail').addEventListener('click',()=>{const input=$('#detailQty'),n=validQty(input.value);if(!n){input.setCustomValidity('Enter a valid whole-number quantity.');input.reportValidity();return}input.setCustomValidity('');personalNotes.set(p.key,$('#detailCustom').value.trim());saveNotes();sendMail(quoteMail(p,n));$('#detailFeedback').textContent='Review the draft in your email app before sending.'});
 }
+
+const familyTypes={
+ 'bearings':['deep_groove_ball_bearing'],
+ 'bolts-studs':['hex_bolt','t_bolt','double_ended_stud'],
+ 'bushes':['plain_bush','flanged_bush'],
+ 'nuts':['hex_nut','lock_nut','flange_nut'],
+ 'rollers':['v_groove','radius_groove','flat_bottom_v_groove'],
+ 'washers':['flat_washer','spring_washer','hardened_washer'],
+ 'workshop-tools':['carbide_drill','solid_carbide_end_mill']
+};
+const typeLabels={hex_bolt:'Hex bolt',t_bolt:'T-bolt',double_ended_stud:'Double-ended stud',plain_bush:'Plain bush',flanged_bush:'Flanged bush',hex_nut:'Hex nut',lock_nut:'Lock nut',flange_nut:'Flange nut',v_groove:'V-groove roller',radius_groove:'U / radius-groove roller',flat_bottom_v_groove:'Flat-bottom V-groove roller',flat_washer:'Flat washer',spring_washer:'Spring washer',hardened_washer:'Hardened washer',deep_groove_ball_bearing:'Deep-groove ball bearing',carbide_drill:'Carbide drill',solid_carbide_end_mill:'Solid carbide end mill'};
+let customRenderToken=0;
+function customHTML(category){
+ const name=categoryName(category),displayName={'rollers':'Roller','bearings':'Bearing','bushes':'Bush','nuts':'Nut','washers':'Washer','bolts-studs':'Bolt / Stud','workshop-tools':'Workshop Tool'}[category]||name,types=familyTypes[category]||[];
+ return '<div class="container"><button class="back-products" type="button" id="customBack">← Back to catalogue</button><div class="detail-overline">'+escapeHTML(name)+' / Custom enquiry</div><h1 class="detail-title">Custom '+escapeHTML(displayName)+'</h1><p class="detail-lead">Choose a part type, provide the dimensions you know and email us for a quotation. The sketches are illustrative only and are not manufacturing drawings.</p>'+ 
+ '<div class="custom-type-controls"><label>Part type<select id="customType" required><option value="">Select a part type</option>'+types.map(t=>'<option value="'+escapeHTML(t)+'">'+escapeHTML(typeLabels[t]||prettyName(t))+'</option>').join('')+'</select></label><label id="customSeatWrap" hidden>Bearing seat<select id="customSeat"><option value="none">No bearing seat</option><option value="one_side">One-side bearing seat</option><option value="both_sides">Both-side bearing seats</option></select></label></div>'+ 
+ '<div class="detail-layout tech-browser" id="customTechBrowser" data-primary-view="axial"><section class="draw-panel tech-drawing-panel"><h2>Technical drawing</h2><div class="tech-view-tabs" id="customPatternTabs" role="group" aria-label="Drawing views"></div><div class="tech-views" id="customPatternViews"><p class="pattern-loading">Select a part type to view the drawing.</p></div><p class="tech-instruction" role="status" aria-live="polite"></p><p class="drawing-warning">Illustrative only — not to scale. Enter your own dimensions.</p></section><section class="spec-panel tech-measures-panel"><h2>Requested dimensions</h2><p class="tech-panel-subtitle">Tap a dimension name or its value field to show and highlight the matching reference on the drawing. Leave unknown values blank.</p><div class="custom-dimension-list" id="customDimensions"><p>Select a part type above.</p></div></section></div>'+ 
+ '<section class="spec-panel tech-extra-panel custom-rfq"><h2>Request a custom quote</h2><div class="custom-rfq-grid"><label>Material<input id="customMaterial" type="text" maxlength="120" placeholder="e.g. 4140 steel, bronze, stainless steel"></label><label>Quantity<input id="customQuantity" type="number" min="1" max="1000000" value="1" inputmode="numeric"></label><label class="custom-rfq-wide">Details / tolerances / drawing reference<textarea id="customDetails" rows="4" maxlength="3000" placeholder="Tell us about your application, tolerances, surface finish, drawing or other requirements"></textarea></label></div><div class="custom-rfq-actions"><button class="primary" type="button" id="customSend">Email custom enquiry</button><button type="button" class="detail-mail" id="customCopy">Copy enquiry</button></div><p class="detail-feedback" id="customFeedback" role="status" aria-live="polite"></p><p class="verification-note">Custom requests are not added to the product enquiry list. We will confirm the specifications, price and lead time.</p></section></div>';
+}
+function customPayload(){
+ const category=categoryName(customCategory),type=typeLabels[$('#customType')?.value]||$('#customType')?.value||'',seat=$('#customSeatWrap').hidden?'':$('#customSeat').selectedOptions[0].text;
+ const qty=validQty($('#customQuantity').value);
+ if(!type){$('#customType').focus();$('#customType').reportValidity();return null}
+ if(!qty){$('#customQuantity').setCustomValidity('Enter a whole number from 1 to 1,000,000.');$('#customQuantity').reportValidity();return null}
+ $('#customQuantity').setCustomValidity('');
+ const fields=[...document.querySelectorAll('#customDimensions input[data-key]')].map(input=>({label:input.dataset.label,value:input.value.trim(),unit:input.dataset.unit})).filter(d=>d.value);
+ const lines=['Hello Circle Line,','','I would like to request a quote for a custom part.','','Category: '+category,'Part type: '+type,...(seat?['Bearing seat: '+seat]:[]),'Quantity: '+qty,'', 'Requested dimensions:',...(fields.length?fields.map(d=>'- '+d.label+': '+d.value+(d.unit?' '+d.unit:'')):['- To be confirmed']), '', 'Material: '+($('#customMaterial').value.trim()||'To be confirmed'),'Details / tolerances / drawing reference: '+($('#customDetails').value.trim()||'To be confirmed'),'','Please advise feasibility, availability, price and lead time.','','Thank you.'];
+ return {subject:'Custom RFQ: '+category+' - '+type,body:lines.join('\n')};
+}
+async function renderCustomPattern(){
+ const type=$('#customType').value,seat=$('#customSeat').value,token=++customRenderToken;
+ $('#customSeatWrap').hidden=!['v_groove','radius_groove','flat_bottom_v_groove'].includes(type);
+ $('#customTechBrowser').dataset.viewerMounted='';
+ if(!type){$('#customDimensions').innerHTML='<p>Select a part type above.</p>';$('#customPatternViews').innerHTML='<p class="pattern-loading">Select a part type to view the drawing.</p>';$('#customPatternTabs').innerHTML='';return;}
+ if(!window.CircleLinePatterns){$('#customPatternViews').textContent='Drawings unavailable.';return;}
+ try{
+ const manifest=await window.CircleLinePatterns.loadManifest();
+ // A pattern definition is the source of the dimension keys and display labels.
+ let pattern=manifest.templates.find(t=>t.type===type&&(type==='solid_carbide_end_mill'?t.shankDiameterRelation==='equal':t.bearingSeat===(type.includes('groove')?seat:'none')))||manifest.templates.find(t=>t.type===type);
+ if(!pattern)return;
+ const existing=Object.fromEntries([...document.querySelectorAll('#customDimensions input[data-key]')].map(i=>[i.dataset.key,i.value]));
+ const dims=pattern.sample.dimensions.map((d,i)=>({...d,letter:String.fromCharCode(65+i),value:existing[d.key]||'',display:''}));
+ // Display the complete schematic with letters, but never submit sample values.
+ const schematic={type,bearingSeat:seat,dimensions:dims.map(d=>({...d,value:d.value||(d.key==='cutting_diameter'||d.key==='shank_diameter'?'10':'')}))};
+ const result=await window.CircleLinePatterns.forProduct(schematic);
+ if(token!==customRenderToken||!$('#customTechBrowser'))return;
+ $('#customDimensions').innerHTML=dims.map(d=>'<div class="custom-dimension-item"><button type="button" class="tech-dimension" data-dimension-key="'+escapeHTML(d.key)+'" aria-pressed="false" title="Show reference for '+escapeHTML(d.label)+'"><span class="tech-dimension-key">'+escapeHTML(d.letter)+'</span><span class="tech-dimension-label">'+escapeHTML(d.label)+'</span></button><input type="text" data-key="'+escapeHTML(d.key)+'" data-label="'+escapeHTML(d.label)+'" data-unit="'+escapeHTML(d.unit||'')+'" value="'+escapeHTML(existing[d.key]||'')+'" placeholder="'+escapeHTML(d.unit||'Value')+'" aria-label="'+escapeHTML(d.label)+'"></div>').join('');
+ $('#customPatternTabs').innerHTML=result.views.map((v,i)=>'<button type="button" class="tech-view-tab" data-view-index="'+i+'" aria-pressed="false">'+escapeHTML(v.name)+'</button>').join('');
+ $('#customDimensions').querySelectorAll('input[data-key]').forEach(input=>input.addEventListener('change',()=>{if(type==='solid_carbide_end_mill'||input.dataset.key==='flute_count')renderCustomPattern()}));
+ $('#customPatternViews').innerHTML=result.views.map((v,i)=>'<div class="tech-view" data-view-index="'+i+'" data-view-name="'+escapeHTML(v.name)+'" hidden>'+v.svg+'</div>').join('')+'<div class="tech-current-view" aria-live="polite"></div>';
+ const browser=$('#customTechBrowser');delete browser.dataset.viewerMounted;
+ window.CircleLineTechnicalViewer?.mount(browser);
+ }catch(error){console.error(error);if(token===customRenderToken)$('#customPatternViews').textContent='The technical drawing could not be loaded.'}
+}
+function showCustom(category){
+ if(!allowedCategory(category)){location.hash='';return;}
+ openProduct=null;customCategory=category;
+ $('#detailView').hidden=true;$('.catalog').hidden=true;
+ $('#customView').innerHTML=customHTML(category);$('#customView').hidden=false;
+ document.title='Custom '+categoryName(category)+' | Circle Line Engineering';
+ $('#customBack').addEventListener('click',()=>{if(window.CircleLineInitialCustomCategory){location.href='./';}else{location.hash='';syncDetailRoute();}});
+ $('#customType').addEventListener('change',renderCustomPattern);
+ $('#customSeat').addEventListener('change',renderCustomPattern);
+ $('#customQuantity').addEventListener('input',()=>$('#customQuantity').setCustomValidity(''));
+ $('#customSend').addEventListener('click',()=>{const msg=customPayload();if(msg){sendMail(msg);$('#customFeedback').textContent='Review the draft in your email app before sending.'}});
+ $('#customCopy').addEventListener('click',async()=>{const msg=customPayload();if(!msg)return;const text=msg.subject+'\n\n'+msg.body;try{await navigator.clipboard.writeText(text);$('#customFeedback').textContent='Custom enquiry copied.'}catch(e){$('#customFeedback').textContent='Copy unavailable. Please use Email custom enquiry.'}});
+ window.scrollTo({top:0,behavior:'instant'});
+}
 function syncDetailRoute(){
  let hash='';try{hash=decodeURIComponent(location.hash.slice(1))}catch(e){hash=location.hash.slice(1)}
+ if(!hash && window.CircleLineInitialCustomCategory){const cat=window.CircleLineInitialCustomCategory;if(allowedCategory(cat)){if(customCategory!==cat||$('#customView').hidden)showCustom(cat);return;}}
+ if(hash.startsWith('custom/')){const cat=hash.slice(7);if(allowedCategory(cat)){if(customCategory!==cat||$('#customView').hidden)showCustom(cat);return;}}
+ customCategory=null;$('#customView').hidden=true;
  if(hash.startsWith('part/')){
   const key=hash.slice(5),p=products.find(x=>x.key===key);
-  if(p){if(openProduct!==p.key||$('#detailView').hidden)showDetail(p);return}
+  if(p&&allowedCategory(p.category)){if(openProduct!==p.key||$('#detailView').hidden)showDetail(p);return}
  }
  openProduct=null;
  $('#detailView').hidden=true;

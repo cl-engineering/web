@@ -64,3 +64,11 @@ input,textarea,select{font-size:16px;max-width:100%}
   .part-enquiry-item>label{grid-column:1;width:min(135px,100%);align-self:end}
   .part-enquiry-item>.part-item-remove{grid-column:2;align-self:end;width:100%;padding:8px 12px;font-size:.85rem}
 }
+
+/* Desktop enquiry review: align Remove with the Qty input, not the label. */
+@media (min-width:701px) {
+  .part-enquiry-item { align-items:end; }
+  .part-enquiry-item > div:first-child { align-self:center; }
+  .part-enquiry-item > label { align-self:end; }
+  .part-enquiry-item > .part-item-remove { align-self:end; }
+}

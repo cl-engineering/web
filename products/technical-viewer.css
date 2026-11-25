@@ -38,3 +38,7 @@
 @media(max-width:820px){.tech-browser{grid-template-columns:1fr;gap:13px}.tech-browser>.tech-drawing-panel,.tech-browser>.tech-measures-panel{padding:16px}.tech-view-tabs{margin-top:7px}.tech-drawing-panel{max-width:none}.tech-views{max-width:460px;margin:0 auto}}
 @media(max-width:430px){.tech-browser>.tech-drawing-panel,.tech-browser>.tech-measures-panel{padding:12px}.tech-view-tab{font-size:.75rem;padding:7px}.tech-dimension{grid-template-columns:28px minmax(0,1fr);padding:10px;gap:8px}.tech-dimension-value{grid-column:2;text-align:left;margin-top:-4px}.tech-instruction{font-size:.8rem}}
 @media(prefers-reduced-motion:no-preference){.tech-dimension,.tech-view-tab{transition:background-color .16s,border-color .16s}}
+
+/* Matching input highlight for Custom quotation dimension references. */
+.custom-dimension-item:has(.tech-dimension[aria-pressed="true"]) input[data-key]{border-color:#d89520;box-shadow:0 0 0 2px rgba(216,149,32,.16);background:#fffdf7}
+@media(max-width:820px){.tech-drawing-panel{scroll-margin-top:95px}}
