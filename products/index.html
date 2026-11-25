@@ -136,7 +136,7 @@ footer{background:#07101f;padding:48px 5% 32px;border-top:1px solid rgba(255,255
 /* Keep 8-item menu accessible on medium desktops. */
 @media (min-width:961px) and (max-width:1170px){.nav-links{display:none}.nav-links.open{display:flex;flex-direction:column;position:absolute;top:84px;left:0;right:0;background:hsl(220,64%,15%);padding:20px 5%;gap:4px;border-bottom:2px solid var(--gold)}.hamburger{display:flex}}
 
-/* Responsive catalogue: do not allow long StockApp codes/names to widen the viewport. */
+/* Responsive catalogue: do not allow long product codes/names to widen the viewport. */
 html,body{max-width:100%;overflow-x:clip}
 main,.catalog,.product-detail,.container,.results,.product,.product-details,.quote-inner,.quote-actions{min-width:0;max-width:100%}
 .product-code,.product-name,.product-sub,.detail-overline,.detail-title,.detail-lead{overflow-wrap:anywhere;word-break:normal}
@@ -184,6 +184,31 @@ html,body{max-width:100%;overflow-x:clip}
   .quote-inner{width:96%}
   .quote-inner .primary{padding:8px 8px;font-size:.76rem}
 }
+
+/* 2026 mobile controls: consistent tap targets and centred action labels. */
+.product-actions .add-btn,.product-actions .remove-btn{display:inline-flex;justify-content:center;align-items:center;text-align:center;line-height:1.2;box-sizing:border-box}
+.quote-actions button{display:inline-flex;align-items:center;justify-content:center;text-align:center;line-height:1.2;box-sizing:border-box}
+@media(max-width:700px){
+  .product-actions{grid-template-columns:75px minmax(0,1fr) 80px;align-items:end;gap:8px}
+  .product-actions .qty-wrap{align-self:end}
+  .product-actions .qty{height:46px;width:100%;box-sizing:border-box}
+  .product-actions .add-btn,.product-actions .remove-btn{height:46px;min-height:46px;padding:5px 6px;margin:0;align-self:end}
+  .product-actions .remove-btn{width:100%;max-width:100%}
+  .quote-actions{align-items:stretch;justify-content:center;flex-wrap:nowrap;gap:8px}
+  .quote-actions #reviewQuote,.quote-actions #emailQuote{height:46px;min-height:46px;min-width:0;padding:7px 10px;display:inline-flex;align-items:center;justify-content:center;text-align:center;line-height:1.15}
+  .quote-actions #reviewQuote{font-size:.78rem;letter-spacing:0.35px}
+  .quote-actions #emailQuote{font-size:.83rem;letter-spacing:.35px}
+  .quote-inner{display:grid;grid-template-columns:minmax(90px,1fr) auto;align-items:center;gap:7px}
+  .quote-count{white-space:normal;line-height:1.2}
+  .quote-actions{width:auto}
+  .quote-small{display:none}
+}
+@media(max-width:370px){
+  .product-actions{grid-template-columns:64px minmax(0,1fr) 68px;gap:6px}
+  .quote-inner{grid-template-columns:minmax(72px,1fr) auto;gap:5px}
+  .quote-actions{gap:5px}
+  .quote-actions #reviewQuote,.quote-actions #emailQuote{padding:6px 7px;font-size:.72rem}
+}
 </style>
 <link rel="stylesheet" href="technical-viewer.css">
 </head>
@@ -198,7 +223,7 @@ html,body{max-width:100%;overflow-x:clip}
 <main>
 <section class="hero"><div class="hero-inner"><div class="hero-badge">Circle Line Engineering</div><h1>Product <span>Catalogue</span></h1><p>Find the parts you need, choose quantities and email us for a quote. We will confirm pricing and availability.</p></div></section>
 <section class="catalog"><div class="container">
-  <span class="section-eyebrow">Browse &amp; enquire</span><h2 class="catalog-title">Find a product</h2><p class="intro">Search by product name, StockApp code or specification. Select a product card to view its measurements, or add it to your enquiry.</p>
+  <span class="section-eyebrow">Browse &amp; enquire</span><h2 class="catalog-title">Find a product</h2><p class="intro">Search by product name, product code or specification. Select a product card to view its measurements, or add it to your enquiry.</p>
   <div class="controls"><label class="search"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input id="search" type="search" placeholder="Search product or part number" autocomplete="off" aria-label="Search products"></label><span class="help">No online checkout — enquiries by email</span></div>
   <div class="categories" id="categories" role="group" aria-label="Product categories"></div>
   <div class="category-custom" id="categoryCustom" hidden><button type="button" id="customCategory">Custom enquiry for this category</button></div>

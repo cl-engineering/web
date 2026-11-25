@@ -1,4 +1,4 @@
-/* Circle Line Engineering catalogue — StockApp category export v2.
+/* Circle Line Engineering catalogue — category export v2.
    Supports structured JSON and human-readable technical specs in product descriptions. */
 (()=>{'use strict';
 const EMAIL='sales@circleline.co.nz';
@@ -117,7 +117,7 @@ function imageFromExport(src){
 function slug(text){return String(text||'').toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'other'}
 function loadExport(data){
  products.length=0;labels.clear();
- if(!data||!Array.isArray(data.categories))throw Error('Expected a StockApp category export with categories[].products.');
+ if(!data||!Array.isArray(data.categories))throw Error('Expected a category export with categories[].products.');
  for(const category of data.categories){
   if(!category||!Array.isArray(category.products))continue;
   const name=String(category.name||'Other').trim(), cat=slug(name);
@@ -169,7 +169,7 @@ function render(){
  const matching=products.filter(p=>(activeCategory==='all'||p.category===activeCategory)&&(!query||searchText(p).includes(query)));
  $('#resultsInfo').textContent=matching.length+' '+(matching.length===1?'product':'products')+(activeCategory==='all'?'':' · '+labels.get(activeCategory));
  $('#categories').querySelectorAll('.category').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cat===activeCategory)));
- if(!products.length)$('#results').innerHTML='<div class="empty">No products were included in this StockApp export.</div>';
+ if(!products.length)$('#results').innerHTML='<div class="empty">No products are currently listed in this catalogue.</div>';
  else if(!matching.length)$('#results').innerHTML='<div class="empty">No matching parts. Try another search, or enquire about a custom machined part.</div>';
  else $('#results').innerHTML=matching.slice(0,visible).map(p=>{
   const isSelected=selected.has(p.key),qty=selected.get(p.key)||1;
@@ -202,7 +202,7 @@ $('#enquiryItems').addEventListener('click',e=>{const b=e.target.closest('.revie
 $('#enquiryItems').addEventListener('change',e=>{const input=e.target.closest('input[type=number]');if(!input)return;const n=validQty(input.value);if(!n){input.reportValidity();quoteReview();return;}selected.set(input.closest('.enquiry-row').dataset.key,n);render();});
 function categoryCustomMail(category){const label=labels.get(category)||'Engineering parts';sendMail({subject:'Custom RFQ: '+label,body:'Hello Circle Line,\n\nI would like a quote for a custom part in the '+label+' category.\n\nPart description / drawing reference: \nMaterial: \nDimensions: \nQuantity: \nAdditional requirements: \n\nPlease advise availability and lead time.\n\nThank you.'});}
 $('#customCategory').addEventListener('click',()=>categoryCustomMail(activeCategory));
-$('#results').addEventListener('input',e=>{if(!e.target.matches('.qty'))return;const input=e.target;input.setCustomValidity('');const key=input.closest('.product').dataset.key;if(selected.has(key)){const n=validQty(input.value);if(n)selected.set(key,n)}});
+$('#results').addEventListener('input',e=>{if(!e.target.matches('.qty'))return;const input=e.target;input.setCustomValidity('');const key=input.closest('.product').dataset.key;if(selected.has(key)){const n=validQty(input.value);if(n){selected.set(key,n);updateQuoteBar()}}});
 $('#categories').addEventListener('click',e=>{const button=e.target.closest('[data-cat]');if(!button)return;activeCategory=button.dataset.cat;visible=18;$('#categoryCustom').hidden=activeCategory==='all';render()});
 $('#search').addEventListener('input',e=>{query=e.target.value.trim().toLowerCase();visible=18;render()});
 $('#more').addEventListener('click',()=>{visible+=18;render()});
@@ -261,7 +261,7 @@ function specHint(d){
 function detailHTML(p){
  const dimensionRows=p.dimensions.map(d=>'<button type="button" class="tech-dimension" data-dimension-key="'+escapeHTML(d.key)+'" aria-pressed="false" title="Show '+escapeHTML(d.label)+' on the drawing"><span class="tech-dimension-key">'+escapeHTML(d.letter)+'</span><span class="tech-dimension-label">'+escapeHTML(d.label)+'</span><strong class="tech-dimension-value">'+escapeHTML(d.display)+'</strong></button>').join('');
  const props=p.properties.map(d=>'<div class="prop-row"><span>'+escapeHTML(d.name)+'</span><strong>'+escapeHTML(d.value)+'</strong></div>').join('');
- const photo=p.photo?'<img class="detail-photo" src="'+escapeHTML(p.photo)+'" alt="Photo of '+escapeHTML(p.name)+'" loading="lazy">':'<div class="photo-placeholder"><strong>Product photo not available</strong><span>The StockApp export did not include an image for this product.</span></div>';
+ const photo=p.photo?'<img class="detail-photo" src="'+escapeHTML(p.photo)+'" alt="Photo of '+escapeHTML(p.name)+'" loading="lazy">':'<div class="photo-placeholder"><strong>Product photo not available</strong><span>No product image is currently available.</span></div>';
  const notes=p.notes.length?p.notes.map(note=>'<p class="spec-caution">'+escapeHTML(note)+'</p>').join(''):'<p class="spec-caution">Confirm the required specifications before ordering or manufacturing.</p>';
  const warning=p.technical.hasTechnical&&!p.technical.verified?'The exported technical specifications have not been independently verified. Confirm all dimensions before ordering.':'Dimensions are guides only. Confirm any tolerances, standards and fit requirements before ordering.';
  const accordion=(title,content)=>'<details class="accordion"><summary>'+title+'</summary><div class="accordion-body">'+content+'</div></details>';
@@ -273,7 +273,7 @@ function detailHTML(p){
  accordion('Product photo','<div class="reference-gallery reference-single"><div class="reference-card"><div class="reference-body">'+photo+'</div></div></div>')+
  (props?accordion('Material &amp; other details','<div class="prop-list">'+props+'</div>'):'')+
  accordion('Technical notes',notes+'<p class="verification-note">'+escapeHTML(warning)+'</p>')+
- '</div><section class="detail-enquiry"><h3>Request a quote</h3><p>Quote this StockApp product using code <strong>'+escapeHTML(p.id)+'</strong>.</p><label class="detail-custom-label">Custom enquiry / requirements for this product<textarea id="detailCustom" maxlength="2000" placeholder="Special material, dimensions, tolerances or drawing reference">'+escapeHTML(personalNotes.get(p.key)||'')+'</textarea></label><div class="detail-enquiry-actions"><label class="detail-qty-label">Quantity<input id="detailQty" type="number" min="1" max="1000000" step="1" inputmode="numeric" value="'+(selected.get(p.key)||1)+'"></label><button class="primary" id="detailAdd" type="button">'+(selected.has(p.key)?'Update enquiry':'Add to enquiry')+'</button><button id="detailRemove" class="detail-remove" type="button"'+(selected.has(p.key)?'':' hidden')+'>Remove from enquiry</button><button class="detail-mail" id="detailMail" type="button">Email about this part</button></div><p class="detail-feedback" id="detailFeedback" role="status" aria-live="polite"></p></section></section></div>';
+ '</div><section class="detail-enquiry"><h3>Request a quote</h3><p>Request a quote for product code <strong>'+escapeHTML(p.id)+'</strong>.</p><label class="detail-custom-label">Custom enquiry / requirements for this product<textarea id="detailCustom" maxlength="2000" placeholder="Special material, dimensions, tolerances or drawing reference">'+escapeHTML(personalNotes.get(p.key)||'')+'</textarea></label><div class="detail-enquiry-actions"><label class="detail-qty-label">Quantity<input id="detailQty" type="number" min="1" max="1000000" step="1" inputmode="numeric" value="'+(selected.get(p.key)||1)+'"></label><button class="primary" id="detailAdd" type="button">'+(selected.has(p.key)?'Update enquiry':'Add to enquiry')+'</button><button id="detailRemove" class="detail-remove" type="button"'+(selected.has(p.key)?'':' hidden')+'>Remove from enquiry</button><button class="detail-mail" id="detailMail" type="button">Email about this part</button></div><p class="detail-feedback" id="detailFeedback" role="status" aria-live="polite"></p></section></section></div>';
 }
 function showDetail(p){
  if(!p)return;

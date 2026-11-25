@@ -27,13 +27,20 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;600;700&display=swap">
 <link rel="stylesheet" href="../../seo-product.css">
+<link rel="stylesheet" href="../../site-shell.css">
 <link rel="stylesheet" href="../../technical-viewer.css">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-D6FDD8TEE1"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-D6FDD8TEE1');</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@id":"https://circleline.co.nz/products/part/cl-demo-nut-flange-m10/#webpage","mainEntity":{"@id":"https://circleline.co.nz/products/part/cl-demo-nut-flange-m10/#product"},"@type":"WebPage","url":"https://circleline.co.nz/products/part/cl-demo-nut-flange-m10/","name":"Flange Nut M10 | Serrated Base | Steel | Circle Line Engineering","description":"Flange Nut M10 | Serrated Base | Steel. Flanged hex nut example with an enlarged bearing face to distribute clamping load over a wider area. The serrated.","inLanguage":"en-NZ","isPartOf":{"@id":"https://circleline.co.nz/#website"}},{"@type":"BreadcrumbList","itemListElement":[{"position":1,"name":"Home","item":"https://circleline.co.nz/","@type":"ListItem"},{"position":2,"name":"Product catalogue","item":"https://circleline.co.nz/products/","@type":"ListItem"},{"position":3,"name":"Flange Nut M10 | Serrated Base | Steel","item":"https://circleline.co.nz/products/part/cl-demo-nut-flange-m10/","@type":"ListItem"}]},{"name":"Flange Nut M10 | Serrated Base | Steel","@id":"https://circleline.co.nz/products/part/cl-demo-nut-flange-m10/#product","sku":"CL-DEMO-NUT-FLANGE-M10","description":"Flanged hex nut example with an enlarged bearing face to distribute clamping load over a wider area. The serrated base shown in the name is an example feature; check surface marking, rotation resistance and whether a separate washer is required for the application.","additionalProperty":[{"name":"Thread size","value":"M10","@type":"PropertyValue"},{"name":"Thread pitch","value":"1.5 mm","@type":"PropertyValue"},{"name":"Across flats","value":"17 mm","@type":"PropertyValue"},{"name":"Height","value":"10 mm","@type":"PropertyValue"},{"name":"Flange diameter","value":"21 mm","@type":"PropertyValue"},{"name":"Flange thickness","value":"2 mm","@type":"PropertyValue"},{"name":"material","value":"Carbon steel example","@type":"PropertyValue"},{"name":"finish","value":"Zinc plated example","@type":"PropertyValue"}],"@type":"Product","url":"https://circleline.co.nz/products/part/cl-demo-nut-flange-m10/"}]}</script>
 </head>
 <body>
-<header><a href="https://circleline.co.nz/" aria-label="Circle Line Engineering home"><img src="../../assets/logo-desktop.webp" alt="Circle Line Engineering Ltd"></a><nav><a href="../../">Product Catalogue</a><a href="https://circleline.co.nz/#contact">Contact</a></nav></header>
+<nav class="site-nav" aria-label="Main navigation">
+  <a class="nav-logo" href="../../../" aria-label="Circle Line Engineering — Home"><img src="../../assets/logo-desktop.webp" alt="Circle Line Engineering Ltd"><img src="../../assets/logo-mobile.webp" alt="" class="nav-logo-img-mobile"><div class="nav-logo-text-mobile">Circle Line<span>Engineering Ltd.</span></div></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="../../../#home">Home</a></li><li><a href="../../../#services">Services</a></li><li><a href="../../../#capabilities">Capabilities</a></li><li><a href="../../../#about">About</a></li><li><a href="../../../#gallery">Gallery</a></li><li><a href="../../../#reviews">Reviews</a></li><li><a class="active" aria-current="page" href="../../">Products</a></li><li><a class="nav-cta" href="../../../#contact">Contact Us</a></li>
+  </ul>
+  <button type="button" class="hamburger" id="hamburger" aria-label="Toggle navigation" aria-controls="navLinks" aria-expanded="false"><span></span><span></span><span></span></button>
+</nav>
 <main>
 <aside class="preview-notice" role="note">Demonstration product - sample specifications only. This is not a confirmed item for sale; please contact us about real availability.</aside>
 <nav class="crumb" aria-label="Breadcrumb"><a href="https://circleline.co.nz/">Home</a> / <a href="../../">Products</a> / Flange Nut M10 | Serrated Base | Steel</nav>
@@ -55,8 +62,18 @@
 <section class="rfq"><h2>Request a quote</h2><p>No online checkout. We will confirm pricing, lead time and availability.</p><label class="custom-requirements-label">Custom enquiry / requirements for this part<textarea id="customRequirements" maxlength="2000" placeholder="Special dimensions, material, drawing reference or other requirements"></textarea></label><div class="actions"><label>Quantity<input id="qty" type="number" min="1" max="1000000" value="1" inputmode="numeric"></label><button id="add" class="button" type="button">Add to enquiry</button><button id="remove" class="button danger" type="button" hidden>Remove from enquiry</button><button id="email" class="button secondary" type="button">Email about this part</button></div><p role="status" id="status"></p></section>
 </section>
 </main>
-<footer>© 2026 Circle Line Engineering Ltd · Auckland, New Zealand · <a href="mailto:sales@circleline.co.nz">sales@circleline.co.nz</a></footer>
+<section id="partEnquiryDrawer" class="part-enquiry-drawer" hidden aria-label="Review selected products">
+ <div class="part-drawer-head"><h2>Review your enquiry</h2><button id="partCloseReview" type="button">Close</button></div>
+ <div id="partEnquiryItems"></div>
+ <p class="part-drawer-help">Change quantities or remove products before sending your enquiry.</p>
+</section>
+<div id="partEnquiryBar" class="part-enquiry-bar" hidden>
+ <div class="part-bar-inner"><strong id="partEnquiryCount">0 items selected</strong><div class="part-bar-actions"><button id="partReview" type="button">Review / edit</button><button id="partEmailAll" type="button">Email enquiry</button></div></div>
+</div>
+
+<footer class="site-footer"><div class="footer-inner"><div class="footer-logo"><img src="../../assets/logo-footer.webp" alt="Circle Line Engineering Ltd"><div class="footer-logo-text">Circle Line Engineering Ltd.<span>Precision Engineering · Auckland, NZ</span></div></div><div class="footer-nav-col"><ul class="footer-links"><li><a href="../../../#home">Home</a></li><li><a href="../../../#services">Services</a></li><li><a href="../../../#capabilities">Capabilities</a></li><li><a href="../../../#about">About</a></li><li><a href="../../../#gallery">Gallery</a></li><li><a href="../../../#reviews">Reviews</a></li><li><a href="../../">Products</a></li><li><a href="../../../#contact">Contact</a></li></ul></div><p class="footer-copy">© 2026 Circle Line Engineering Ltd. All rights reserved. &nbsp;|&nbsp; 8 Marjorie Jayne Crescent, Ōtāhuhu, Auckland 1062 &nbsp;|&nbsp; <a href="mailto:sales@circleline.co.nz">sales@circleline.co.nz</a></p></div></footer>
 <script>window.CircleLinePartData={"title":"Flange Nut M10 | Serrated Base | Steel","key":"nuts:CL-DEMO-NUT-FLANGE-M10","code":"CL-DEMO-NUT-FLANGE-M10","unit":"pcs"};</script>
 <script src="../../technical-viewer.js" defer></script>
 <script src="../../seo-product.js" defer></script>
+<script src="../../site-shell.js" defer></script>
 </body></html>
