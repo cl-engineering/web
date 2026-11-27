@@ -1,0 +1,2 @@
+/* Local fallback matching the empty published catalogue. */
+window.STOCKAPP_SAMPLE_CATALOG = {"schema":"epictiny-stockapp-category","version":2,"exportedAt":"2026-11-27T00:00:00Z","categories":[{"name":"Bearings","products":[]},{"name":"Bolts & Studs","products":[]},{"name":"Bushes","products":[]},{"name":"Nuts","products":[]},{"name":"Rollers","products":[]},{"name":"Washers","products":[]},{"name":"Workshop Tools","products":[]}]};

@@ -1,0 +1,138 @@
+CIRCLE LINE ENGINEERING - PRODUCT CATALOGUE
+===========================================
+
+PACKAGE SCOPE
+This package contains ONLY the products/ folder.
+Put products/ beside the website's index.html and sitemap.xml.
+The original website is not included or modified by this ZIP.
+
+QUICK START - WINDOWS 10 / 11
+1. Export only the products selected for the website in StockApp.
+2. Replace products/catalog.json with the exported catalog.json.
+3. Copy the exported product images into products/images/.
+4. Double-click Update_Catalogue.cmd to regenerate local preview pages (noindex).
+5. Review product cards, individual pages, measurements and drawings before uploading.
+
+WINDOWS COMMANDS (ENGLISH)
+- Update_Catalogue.cmd : Rebuilds the current website's product pages in
+  PREVIEW mode (noindex). Updates the REAL root sitemap to remove all
+  products/ URLs while the pages are noindex.
+- Publish_Catalogue.cmd : Updates the CURRENT website folder with index,follow
+  product pages and updates its REAL root sitemap.xml with only the products
+  currently exported by StockApp. Type PUBLISH when asked.
+  If any product code starts with CL-DEMO, the generator displays a prominent
+  warning and requires a second explicit confirmation: PUBLISH DEMO.
+  Declining the warning cancels publication before generated files are changed.
+  When accepted, those demo product pages are publicly indexable and listed
+  in the sitemap. Each demo product page is visibly identified as a sample.
+  No separate test command or disposable copy is involved.
+
+Both commands work with UNC shares such as \\CLE-SERVER\Common\... via
+PUSHD/POPD and built-in Windows PowerShell 5.1. No Python or Node needed.
+Neither command uploads to a separate host or updates Google Search Console.
+If you run it inside a folder already served by your web host, the file changes
+may go live immediately. If this is a development copy, deploy the changed
+website files separately.
+
+DEMO PUBLICATION WARNING
+Publishing example products is allowed ONLY with the extra confirmation.
+Doing so makes those example pages eligible for search-engine indexing.
+Do not use this for your final commercial catalogue unless the example items
+are explicitly meant to be visible to visitors.
+You can revert to noindex by running Update_Catalogue.cmd.
+
+AFTER STOCKAPP EXPORTS
+The generator reads products/catalog.json, rebuilds products/part/ using only
+exported products, and removes obsolete product directories from the LOCAL
+copy. When deploying, also delete obsolete product URLs from the REMOTE
+server; simply uploading replacement files may leave old folders accessible.
+The pattern library remains intact, regardless of which products are exported.
+
+VISUAL AND TECHNICAL BEHAVIOUR
+- The drawing appears on the left and dimensions on the right (stacked on
+  smaller displays), with one view visible at a time.
+- View controls sit above the drawing. Rollers open on the axial/profile view.
+- Clicking a measurement automatically selects and highlights the related view.
+- Three end-mill shank variants are chosen from cutting_diameter and
+  shank_diameter, without adding another StockApp field.
+- All technical drawings are schematic illustrations, NOT production drawings.
+- The catalogue uses the root fav_topo.png/favicon; the main site files are not
+  included in this package.
+
+SEO AND INDEXING
+- Preview pages: noindex,follow. The root sitemap excludes products URLs.
+- Publication: index,follow. The REAL root sitemap lists the catalogue and
+  products currently exported from StockApp, including CL-DEMO examples only
+  after an extra confirmation. Demo product pages display a clear sample notice.
+- technical-patterns/index.html always remains noindex and outside the sitemap.
+- Individual HTML pages have their own title, description, canonical, OG
+  metadata and Product JSON-LD.
+- Google may choose different snippets, and cannot be guaranteed to index pages.
+
+FILES KEPT INTENTIONALLY
+- catalog-sample.js and technical-patterns/patterns-fallback.js let the
+  catalogue and drawing library open as an OFFLINE file:// example. They are
+  referenced by the HTML and are NOT deployed data sources. HTTP/HTTPS loads
+  the current catalog.json and editable SVGs.
+- technical-patterns/STOCKAPP_TEMPLATE_INSTRUCTIONS.md and
+  technical-patterns/stockapp-template-contract.json are the development
+  reference for StockApp's JSON technical specification mapping.
+- technical-patterns/Update_Offline_Preview.cmd updates the SVG offline
+  snapshot after changing actual SVG files. Never edit that snapshot by hand.
+
+DEPLOYMENT NOTES
+For a working HTTP/HTTPS preview, use your test web server or staging site.
+Opening products/index.html directly as file:// uses the bundled static demo
+snapshot rather than later StockApp exports; use the web-server URL to view
+updated inventory. The published catalogue displays no offline warning.
+Upload the CONTENTS of the site root, not a nested /Newer/ folder.
+Review any demonstration products before allowing search engines to index them.
+
+MOBILE ENQUIRY: Use Add/Update/Remove on cards or individual product pages. Review/edit opens a selected-products panel. Product custom requirements are saved with the enquiry and included in mailto drafts. The selected category offers a custom RFQ email link. Changes to seo-product-template.tpl are used for future generated pages.
+
+GOOGLE ANALYTICS (GA4)
+Both Update_Catalogue.cmd and Publish_Catalogue.cmd use generate_seo.ps1.
+The generated product pages automatically include GA4 measurement ID G-D6FDD8TEE1 exactly once.
+Existing product pages in this package also contain the same GA4 tag.
+To change the GA4 ID later, update seo-product-template.tpl and generate_seo.ps1.
+
+
+CATEGORY OPTIONS AND CUSTOM ENQUIRIES
+-----------------------------------
+The catalogue shows, for each enabled category:
+  1. Custom [category] - opens an interactive, drawing-based custom enquiry.
+  2. [category] catalogue list - a collapsible list of exported products.
+     If there are no products, only the Custom option is displayed.
+
+To hide a whole category, edit products/category-settings.json and change
+  "enabled": true
+to
+  "enabled": false
+for that category. Do not remove the catalogue products to hide a category.
+
+Then run Update_Catalogue.cmd (preview/noindex) or Publish_Catalogue.cmd
+(publication/index,follow) from the complete website folder. The generator
+regenerates only enabled-category product pages and updates the root sitemap.
+Previously published pages for disabled categories must be removed from the
+server during deployment; merely editing JSON does not delete remote files.
+
+The custom part form is separate from the saved-product enquiry cart. It
+can send its own email with chosen type, dimensions, material, quantity
+and details. The type and dimension options follow the SVG pattern manifest.
+Custom requests are not assigned fictional product codes or auto-added to the cart.
+
+The custom form uses the catalogue URL with #custom/[category], and is not
+intended as an independently indexable SEO page.
+
+CUSTOM CATEGORY SEO PAGES
+- Update_Catalogue.cmd and Publish_Catalogue.cmd both rebuild products/custom/
+  from the enabled categories in category-settings.json and catalog.json.
+- Each custom category URL has its own title, description, canonical, Open Graph
+  tags and WebPage/Breadcrumb JSON-LD, while reusing the existing interactive
+  custom quote form, SVG patterns, material and dimensions fields.
+- Example: /products/custom/rollers/. An empty enabled category still has a page.
+- A disabled category has no generated custom page and is excluded from sitemap.
+- Update mode: noindex; no products/custom URLs in root sitemap.
+- Publish mode: index,follow; enabled custom URLs included in root sitemap.
+- Deploy generated deletions as well as additions: uploading files without
+  deleting retired remote custom category folders leaves stale URLs accessible.
